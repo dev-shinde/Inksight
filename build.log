@@ -1,0 +1,448 @@
+#0 building with "default" instance using docker driver
+
+#1 [calculator-service internal] load .dockerignore
+#1 transferring context: 2B done
+#1 DONE 0.1s
+
+#2 [calculator-service internal] load build definition from Dockerfile
+#2 transferring dockerfile: 545B 0.0s done
+#2 DONE 0.2s
+
+#3 [frontend-service internal] load .dockerignore
+#3 transferring context: 2B done
+#3 DONE 0.2s
+
+#4 [frontend-service internal] load build definition from Dockerfile
+#4 transferring dockerfile: 628B 0.0s done
+#4 DONE 0.2s
+
+#5 [frontend-service internal] load metadata for docker.io/library/python:3.9-slim
+#5 DONE 3.0s
+
+#6 [frontend-service internal] load build context
+#6 transferring context: 2.94kB 0.0s done
+#6 DONE 0.1s
+
+#7 [calculator-service internal] load build context
+#7 transferring context: 3.02kB done
+#7 DONE 0.1s
+
+#8 [calculator-service 1/7] FROM docker.io/library/python:3.9-slim@sha256:6250eb7983c08b3cf5a7db9309f8630d3ca03dd152158fa37a3f8daaf397085d
+#8 resolve docker.io/library/python:3.9-slim@sha256:6250eb7983c08b3cf5a7db9309f8630d3ca03dd152158fa37a3f8daaf397085d 0.1s done
+#8 sha256:77edb37367fad6d17c53a3cabdf41a57c0221a49f77250d97e3f5bb1fc1ed6e0 0B / 14.93MB 0.2s
+#8 sha256:6250eb7983c08b3cf5a7db9309f8630d3ca03dd152158fa37a3f8daaf397085d 10.41kB / 10.41kB done
+#8 sha256:43e98aa4594b2a62ace026fb04338453f799bd6012b7933ecd442d6876787cb5 1.75kB / 1.75kB done
+#8 sha256:6a22698eab0ea915af39918e5d2e4f27e49afc6944fd1d97466e13820324bc62 5.41kB / 5.41kB done
+#8 sha256:2d429b9e73a6cf90a5bb85105c8118b30a1b2deedeae3ea9587055ffcb80eb45 0B / 29.13MB 0.2s
+#8 sha256:4920a3bd5f7ed3269b647eb643846a0652dc21daa31763b4afc848701981d141 0B / 3.51MB 0.2s
+#8 sha256:77edb37367fad6d17c53a3cabdf41a57c0221a49f77250d97e3f5bb1fc1ed6e0 1.05MB / 14.93MB 0.8s
+#8 sha256:77edb37367fad6d17c53a3cabdf41a57c0221a49f77250d97e3f5bb1fc1ed6e0 2.10MB / 14.93MB 1.2s
+#8 sha256:2d429b9e73a6cf90a5bb85105c8118b30a1b2deedeae3ea9587055ffcb80eb45 2.10MB / 29.13MB 1.2s
+#8 sha256:77edb37367fad6d17c53a3cabdf41a57c0221a49f77250d97e3f5bb1fc1ed6e0 3.15MB / 14.93MB 1.5s
+#8 sha256:77edb37367fad6d17c53a3cabdf41a57c0221a49f77250d97e3f5bb1fc1ed6e0 4.19MB / 14.93MB 1.8s
+#8 sha256:77edb37367fad6d17c53a3cabdf41a57c0221a49f77250d97e3f5bb1fc1ed6e0 5.24MB / 14.93MB 2.1s
+#8 sha256:2d429b9e73a6cf90a5bb85105c8118b30a1b2deedeae3ea9587055ffcb80eb45 4.19MB / 29.13MB 2.1s
+#8 sha256:77edb37367fad6d17c53a3cabdf41a57c0221a49f77250d97e3f5bb1fc1ed6e0 7.34MB / 14.93MB 2.6s
+#8 sha256:77edb37367fad6d17c53a3cabdf41a57c0221a49f77250d97e3f5bb1fc1ed6e0 8.39MB / 14.93MB 2.9s
+#8 sha256:2d429b9e73a6cf90a5bb85105c8118b30a1b2deedeae3ea9587055ffcb80eb45 6.29MB / 29.13MB 3.1s
+#8 sha256:77edb37367fad6d17c53a3cabdf41a57c0221a49f77250d97e3f5bb1fc1ed6e0 9.44MB / 14.93MB 3.3s
+#8 sha256:77edb37367fad6d17c53a3cabdf41a57c0221a49f77250d97e3f5bb1fc1ed6e0 10.49MB / 14.93MB 3.5s
+#8 sha256:2d429b9e73a6cf90a5bb85105c8118b30a1b2deedeae3ea9587055ffcb80eb45 8.39MB / 29.13MB 3.9s
+#8 sha256:77edb37367fad6d17c53a3cabdf41a57c0221a49f77250d97e3f5bb1fc1ed6e0 11.53MB / 14.93MB 4.2s
+#8 sha256:77edb37367fad6d17c53a3cabdf41a57c0221a49f77250d97e3f5bb1fc1ed6e0 12.58MB / 14.93MB 4.4s
+#8 sha256:2d429b9e73a6cf90a5bb85105c8118b30a1b2deedeae3ea9587055ffcb80eb45 10.49MB / 29.13MB 4.6s
+#8 sha256:77edb37367fad6d17c53a3cabdf41a57c0221a49f77250d97e3f5bb1fc1ed6e0 13.63MB / 14.93MB 4.7s
+#8 sha256:77edb37367fad6d17c53a3cabdf41a57c0221a49f77250d97e3f5bb1fc1ed6e0 14.68MB / 14.93MB 5.1s
+#8 sha256:4920a3bd5f7ed3269b647eb643846a0652dc21daa31763b4afc848701981d141 0B / 3.51MB 5.3s
+#8 sha256:2d429b9e73a6cf90a5bb85105c8118b30a1b2deedeae3ea9587055ffcb80eb45 12.58MB / 29.13MB 5.4s
+#8 sha256:77edb37367fad6d17c53a3cabdf41a57c0221a49f77250d97e3f5bb1fc1ed6e0 14.93MB / 14.93MB 5.4s done
+#8 sha256:02c34c079cc82f150c24eae4d136fd997632cd64c1f922aa8c5974be33792ae5 0B / 255B 5.5s
+#8 sha256:77edb37367fad6d17c53a3cabdf41a57c0221a49f77250d97e3f5bb1fc1ed6e0 14.93MB / 14.93MB 5.4s done
+#8 sha256:4920a3bd5f7ed3269b647eb643846a0652dc21daa31763b4afc848701981d141 1.05MB / 3.51MB 5.7s
+#8 sha256:2d429b9e73a6cf90a5bb85105c8118b30a1b2deedeae3ea9587055ffcb80eb45 14.68MB / 29.13MB 5.8s
+#8 sha256:2d429b9e73a6cf90a5bb85105c8118b30a1b2deedeae3ea9587055ffcb80eb45 16.78MB / 29.13MB 6.4s
+#8 sha256:02c34c079cc82f150c24eae4d136fd997632cd64c1f922aa8c5974be33792ae5 255B / 255B 6.3s done
+#8 sha256:2d429b9e73a6cf90a5bb85105c8118b30a1b2deedeae3ea9587055ffcb80eb45 18.87MB / 29.13MB 6.8s
+#8 sha256:4920a3bd5f7ed3269b647eb643846a0652dc21daa31763b4afc848701981d141 2.10MB / 3.51MB 6.8s
+#8 sha256:2d429b9e73a6cf90a5bb85105c8118b30a1b2deedeae3ea9587055ffcb80eb45 20.97MB / 29.13MB 7.2s
+#8 sha256:4920a3bd5f7ed3269b647eb643846a0652dc21daa31763b4afc848701981d141 3.15MB / 3.51MB 7.4s
+#8 sha256:4920a3bd5f7ed3269b647eb643846a0652dc21daa31763b4afc848701981d141 3.51MB / 3.51MB 7.6s
+#8 sha256:2d429b9e73a6cf90a5bb85105c8118b30a1b2deedeae3ea9587055ffcb80eb45 23.07MB / 29.13MB 7.8s
+#8 sha256:4920a3bd5f7ed3269b647eb643846a0652dc21daa31763b4afc848701981d141 3.51MB / 3.51MB 7.6s done
+#8 sha256:2d429b9e73a6cf90a5bb85105c8118b30a1b2deedeae3ea9587055ffcb80eb45 25.17MB / 29.13MB 8.3s
+#8 sha256:2d429b9e73a6cf90a5bb85105c8118b30a1b2deedeae3ea9587055ffcb80eb45 27.26MB / 29.13MB 8.7s
+#8 sha256:2d429b9e73a6cf90a5bb85105c8118b30a1b2deedeae3ea9587055ffcb80eb45 29.13MB / 29.13MB 9.3s
+#8 sha256:2d429b9e73a6cf90a5bb85105c8118b30a1b2deedeae3ea9587055ffcb80eb45 29.13MB / 29.13MB 9.3s done
+#8 extracting sha256:2d429b9e73a6cf90a5bb85105c8118b30a1b2deedeae3ea9587055ffcb80eb45
+#8 extracting sha256:2d429b9e73a6cf90a5bb85105c8118b30a1b2deedeae3ea9587055ffcb80eb45 2.9s done
+#8 extracting sha256:2d429b9e73a6cf90a5bb85105c8118b30a1b2deedeae3ea9587055ffcb80eb45 2.9s done
+#8 extracting sha256:4920a3bd5f7ed3269b647eb643846a0652dc21daa31763b4afc848701981d141
+#8 extracting sha256:4920a3bd5f7ed3269b647eb643846a0652dc21daa31763b4afc848701981d141 0.3s done
+#8 extracting sha256:77edb37367fad6d17c53a3cabdf41a57c0221a49f77250d97e3f5bb1fc1ed6e0
+#8 extracting sha256:77edb37367fad6d17c53a3cabdf41a57c0221a49f77250d97e3f5bb1fc1ed6e0 1.5s done
+#8 extracting sha256:77edb37367fad6d17c53a3cabdf41a57c0221a49f77250d97e3f5bb1fc1ed6e0 1.5s done
+#8 extracting sha256:02c34c079cc82f150c24eae4d136fd997632cd64c1f922aa8c5974be33792ae5
+#8 extracting sha256:02c34c079cc82f150c24eae4d136fd997632cd64c1f922aa8c5974be33792ae5 done
+#8 DONE 15.0s
+
+#9 [calculator-service 2/7] WORKDIR /app
+#9 DONE 0.7s
+
+#10 [frontend-service 3/7] RUN apt-get update &&     apt-get install -y --no-install-recommends     curl     && rm -rf /var/lib/apt/lists/*
+#10 4.422 Get:1 http://deb.debian.org/debian bookworm InRelease [151 kB]
+#10 4.479 Get:2 http://deb.debian.org/debian bookworm-updates InRelease [55.4 kB]
+#10 4.499 Get:3 http://deb.debian.org/debian-security bookworm-security InRelease [48.0 kB]
+#10 4.578 Get:4 http://deb.debian.org/debian bookworm/main amd64 Packages [8789 kB]
+#10 6.402 Get:5 http://deb.debian.org/debian bookworm-updates/main amd64 Packages [2712 B]
+#10 6.402 Get:6 http://deb.debian.org/debian-security bookworm-security/main amd64 Packages [206 kB]
+#10 7.384 Fetched 9251 kB in 7s (1325 kB/s)
+#10 7.384 Reading package lists...
+#10 8.105 Reading package lists...
+#10 8.566 Building dependency tree...
+#10 8.773 Reading state information...
+#10 8.947 The following additional packages will be installed:
+#10 8.958   libbrotli1 libcurl4 libldap-2.5-0 libnghttp2-14 libpsl5 librtmp1 libsasl2-2
+#10 8.962   libsasl2-modules-db libssh2-1
+#10 8.973 Recommended packages:
+#10 8.980   libldap-common publicsuffix libsasl2-modules
+#10 9.213 The following NEW packages will be installed:
+#10 9.214   curl libbrotli1 libcurl4 libldap-2.5-0 libnghttp2-14 libpsl5 librtmp1
+#10 9.215   libsasl2-2 libsasl2-modules-db libssh2-1
+#10 9.297 0 upgraded, 10 newly installed, 0 to remove and 1 not upgraded.
+#10 9.297 Need to get 1615 kB of archives.
+#10 9.297 After this operation, 3815 kB of additional disk space will be used.
+#10 9.297 Get:1 http://deb.debian.org/debian bookworm/main amd64 libbrotli1 amd64 1.0.9-2+b6 [275 kB]
+#10 9.380 Get:2 http://deb.debian.org/debian bookworm/main amd64 libsasl2-modules-db amd64 2.1.28+dfsg-10 [20.3 kB]
+#10 9.384 Get:3 http://deb.debian.org/debian bookworm/main amd64 libsasl2-2 amd64 2.1.28+dfsg-10 [59.7 kB]
+#10 9.412 Get:4 http://deb.debian.org/debian bookworm/main amd64 libldap-2.5-0 amd64 2.5.13+dfsg-5 [183 kB]
+#10 9.426 Get:5 http://deb.debian.org/debian bookworm/main amd64 libnghttp2-14 amd64 1.52.0-1+deb12u2 [73.0 kB]
+#10 9.430 Get:6 http://deb.debian.org/debian bookworm/main amd64 libpsl5 amd64 0.21.2-1 [58.7 kB]
+#10 9.434 Get:7 http://deb.debian.org/debian bookworm/main amd64 librtmp1 amd64 2.4+20151223.gitfa8646d.1-2+b2 [60.8 kB]
+#10 9.447 Get:8 http://deb.debian.org/debian bookworm/main amd64 libssh2-1 amd64 1.10.0-3+b1 [179 kB]
+#10 9.496 Get:9 http://deb.debian.org/debian bookworm/main amd64 libcurl4 amd64 7.88.1-10+deb12u8 [390 kB]
+#10 9.582 Get:10 http://deb.debian.org/debian bookworm/main amd64 curl amd64 7.88.1-10+deb12u8 [315 kB]
+#10 9.899 debconf: delaying package configuration, since apt-utils is not installed
+#10 9.976 Fetched 1615 kB in 0s (3508 kB/s)
+#10 10.02 Selecting previously unselected package libbrotli1:amd64.
+#10 10.02 (Reading database ... (Reading database ... 5%(Reading database ... 10%(Reading database ... 15%(Reading database ... 20%(Reading database ... 25%(Reading database ... 30%(Reading database ... 35%(Reading database ... 40%(Reading database ... 45%(Reading database ... 50%(Reading database ... 55%(Reading database ... 60%(Reading database ... 65%(Reading database ... 70%(Reading database ... 75%(Reading database ... 80%(Reading database ... 85%(Reading database ... 90%(Reading database ... 95%(Reading database ... 100%(Reading database ... 6686 files and directories currently installed.)
+#10 10.03 Preparing to unpack .../0-libbrotli1_1.0.9-2+b6_amd64.deb ...
+#10 10.07 Unpacking libbrotli1:amd64 (1.0.9-2+b6) ...
+#10 10.17 Selecting previously unselected package libsasl2-modules-db:amd64.
+#10 10.17 Preparing to unpack .../1-libsasl2-modules-db_2.1.28+dfsg-10_amd64.deb ...
+#10 10.18 Unpacking libsasl2-modules-db:amd64 (2.1.28+dfsg-10) ...
+#10 10.27 Selecting previously unselected package libsasl2-2:amd64.
+#10 10.27 Preparing to unpack .../2-libsasl2-2_2.1.28+dfsg-10_amd64.deb ...
+#10 10.29 Unpacking libsasl2-2:amd64 (2.1.28+dfsg-10) ...
+#10 10.41 Selecting previously unselected package libldap-2.5-0:amd64.
+#10 10.41 Preparing to unpack .../3-libldap-2.5-0_2.5.13+dfsg-5_amd64.deb ...
+#10 10.43 Unpacking libldap-2.5-0:amd64 (2.5.13+dfsg-5) ...
+#10 10.55 Selecting previously unselected package libnghttp2-14:amd64.
+#10 10.55 Preparing to unpack .../4-libnghttp2-14_1.52.0-1+deb12u2_amd64.deb ...
+#10 10.56 Unpacking libnghttp2-14:amd64 (1.52.0-1+deb12u2) ...
+#10 10.65 Selecting previously unselected package libpsl5:amd64.
+#10 10.65 Preparing to unpack .../5-libpsl5_0.21.2-1_amd64.deb ...
+#10 10.65 Unpacking libpsl5:amd64 (0.21.2-1) ...
+#10 10.74 Selecting previously unselected package librtmp1:amd64.
+#10 10.74 Preparing to unpack .../6-librtmp1_2.4+20151223.gitfa8646d.1-2+b2_amd64.deb ...
+#10 10.75 Unpacking librtmp1:amd64 (2.4+20151223.gitfa8646d.1-2+b2) ...
+#10 10.83 Selecting previously unselected package libssh2-1:amd64.
+#10 10.83 Preparing to unpack .../7-libssh2-1_1.10.0-3+b1_amd64.deb ...
+#10 10.86 Unpacking libssh2-1:amd64 (1.10.0-3+b1) ...
+#10 10.99 Selecting previously unselected package libcurl4:amd64.
+#10 11.00 Preparing to unpack .../8-libcurl4_7.88.1-10+deb12u8_amd64.deb ...
+#10 11.02 Unpacking libcurl4:amd64 (7.88.1-10+deb12u8) ...
+#10 11.13 Selecting previously unselected package curl.
+#10 11.14 Preparing to unpack .../9-curl_7.88.1-10+deb12u8_amd64.deb ...
+#10 11.17 Unpacking curl (7.88.1-10+deb12u8) ...
+#10 11.41 Setting up libpsl5:amd64 (0.21.2-1) ...
+#10 11.43 Setting up libbrotli1:amd64 (1.0.9-2+b6) ...
+#10 11.45 Setting up libnghttp2-14:amd64 (1.52.0-1+deb12u2) ...
+#10 11.47 Setting up libsasl2-modules-db:amd64 (2.1.28+dfsg-10) ...
+#10 11.48 Setting up librtmp1:amd64 (2.4+20151223.gitfa8646d.1-2+b2) ...
+#10 11.50 Setting up libsasl2-2:amd64 (2.1.28+dfsg-10) ...
+#10 11.51 Setting up libssh2-1:amd64 (1.10.0-3+b1) ...
+#10 11.53 Setting up libldap-2.5-0:amd64 (2.5.13+dfsg-5) ...
+#10 11.57 Setting up libcurl4:amd64 (7.88.1-10+deb12u8) ...
+#10 11.59 Setting up curl (7.88.1-10+deb12u8) ...
+#10 11.60 Processing triggers for libc-bin (2.36-9+deb12u9) ...
+#10 DONE 11.7s
+
+#11 [calculator-service 4/6] COPY requirements.txt .
+#11 DONE 0.2s
+
+#12 [frontend-service 4/7] RUN mkdir -p static templates
+#12 DONE 0.6s
+
+#13 [calculator-service 5/6] RUN pip install --no-cache-dir -r requirements.txt
+#13 ...
+
+#14 [frontend-service 5/7] COPY requirements.txt .
+#14 DONE 0.1s
+
+#15 [frontend-service 6/7] RUN pip install --no-cache-dir -r requirements.txt
+#15 1.923 Collecting Flask==2.0.1
+#15 2.006   Downloading Flask-2.0.1-py3-none-any.whl (94 kB)
+#15 2.036      ━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━ 94.8/94.8 kB 3.4 MB/s eta 0:00:00
+#15 2.084 Collecting python-dotenv==0.19.0
+#15 2.106   Downloading python_dotenv-0.19.0-py2.py3-none-any.whl (17 kB)
+#15 2.148 Collecting click>=7.1.2
+#15 2.178   Downloading click-8.1.7-py3-none-any.whl (97 kB)
+#15 2.199      ━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━ 97.9/97.9 kB 4.2 MB/s eta 0:00:00
+#15 2.254 Collecting Werkzeug>=2.0
+#15 2.279   Downloading werkzeug-3.1.3-py3-none-any.whl (224 kB)
+#15 2.439      ━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━ 224.5/224.5 kB 1.4 MB/s eta 0:00:00
+#15 2.476 Collecting Jinja2>=3.0
+#15 2.517   Downloading jinja2-3.1.4-py3-none-any.whl (133 kB)
+#15 2.527      ━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━ 133.3/133.3 kB 16.1 MB/s eta 0:00:00
+#15 2.551 Collecting itsdangerous>=2.0
+#15 2.577   Downloading itsdangerous-2.2.0-py3-none-any.whl (16 kB)
+#15 2.723 Collecting MarkupSafe>=2.0
+#15 2.745   Downloading MarkupSafe-3.0.2-cp39-cp39-manylinux_2_17_x86_64.manylinux2014_x86_64.whl (20 kB)
+#15 2.790 Installing collected packages: python-dotenv, MarkupSafe, itsdangerous, click, Werkzeug, Jinja2, Flask
+#15 3.254 Successfully installed Flask-2.0.1 Jinja2-3.1.4 MarkupSafe-3.0.2 Werkzeug-3.1.3 click-8.1.7 itsdangerous-2.2.0 python-dotenv-0.19.0
+#15 3.255 WARNING: Running pip as the 'root' user can result in broken permissions and conflicting behaviour with the system package manager. It is recommended to use a virtual environment instead: https://pip.pypa.io/warnings/venv
+#15 ...
+
+#13 [calculator-service 5/6] RUN pip install --no-cache-dir -r requirements.txt
+#13 2.326 Collecting Flask==2.0.1
+#13 2.443   Downloading Flask-2.0.1-py3-none-any.whl (94 kB)
+#13 2.467      ━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━ 94.8/94.8 kB 3.8 MB/s eta 0:00:00
+#13 2.741 Collecting google-generativeai==0.1.0
+#13 2.765   Downloading google_generativeai-0.1.0-py3-none-any.whl (122 kB)
+#13 2.774      ━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━ 122.9/122.9 kB 17.2 MB/s eta 0:00:00
+#13 3.321 Collecting Pillow==9.0.0
+#13 3.391   Downloading Pillow-9.0.0-cp39-cp39-manylinux_2_17_x86_64.manylinux2014_x86_64.whl (4.3 MB)
+#13 4.606      ━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━ 4.3/4.3 MB 3.6 MB/s eta 0:00:00
+#13 4.655 Collecting python-dotenv==0.19.0
+#13 4.676   Downloading python_dotenv-0.19.0-py2.py3-none-any.whl (17 kB)
+#13 4.719 Collecting click>=7.1.2
+#13 4.742   Downloading click-8.1.7-py3-none-any.whl (97 kB)
+#13 4.763      ━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━ 97.9/97.9 kB 4.7 MB/s eta 0:00:00
+#13 4.790 Collecting itsdangerous>=2.0
+#13 4.809   Downloading itsdangerous-2.2.0-py3-none-any.whl (16 kB)
+#13 4.862 Collecting Werkzeug>=2.0
+#13 4.883   Downloading werkzeug-3.1.3-py3-none-any.whl (224 kB)
+#13 4.929      ━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━ 224.5/224.5 kB 5.0 MB/s eta 0:00:00
+#13 4.960 Collecting Jinja2>=3.0
+#13 4.979   Downloading jinja2-3.1.4-py3-none-any.whl (133 kB)
+#13 5.009      ━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━ 133.3/133.3 kB 5.1 MB/s eta 0:00:00
+#13 5.294 Collecting google-ai-generativelanguage==0.2.0
+#13 5.315   Downloading google_ai_generativelanguage-0.2.0-py3-none-any.whl (113 kB)
+#13 5.336      ━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━ 113.3/113.3 kB 6.1 MB/s eta 0:00:00
+#13 5.470 Collecting google-api-core[grpc]!=2.0.*,!=2.1.*,!=2.10.*,!=2.2.*,!=2.3.*,!=2.4.*,!=2.5.*,!=2.6.*,!=2.7.*,!=2.8.*,!=2.9.*,<3.0.0dev,>=1.34.0
+#13 5.493   Downloading google_api_core-2.23.0-py3-none-any.whl (156 kB)
+#13 5.523      ━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━ 156.6/156.6 kB 5.4 MB/s eta 0:00:00
+#13 6.028 Collecting protobuf!=3.20.0,!=3.20.1,!=4.21.0,!=4.21.1,!=4.21.2,!=4.21.3,!=4.21.4,!=4.21.5,<5.0.0dev,>=3.19.5
+#13 6.055   Downloading protobuf-4.25.5-cp37-abi3-manylinux2014_x86_64.whl (294 kB)
+#13 6.113      ━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━ 294.6/294.6 kB 5.4 MB/s eta 0:00:00
+#13 6.154 Collecting proto-plus<2.0.0dev,>=1.22.0
+#13 6.177   Downloading proto_plus-1.25.0-py3-none-any.whl (50 kB)
+#13 6.182      ━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━ 50.1/50.1 kB 266.4 MB/s eta 0:00:00
+#13 6.301 Collecting MarkupSafe>=2.0
+#13 6.324   Downloading MarkupSafe-3.0.2-cp39-cp39-manylinux_2_17_x86_64.manylinux2014_x86_64.whl (20 kB)
+#13 6.397 Collecting requests<3.0.0.dev0,>=2.18.0
+#13 6.419   Downloading requests-2.32.3-py3-none-any.whl (64 kB)
+#13 6.426      ━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━ 64.9/64.9 kB 21.3 MB/s eta 0:00:00
+#13 6.462 Collecting googleapis-common-protos<2.0.dev0,>=1.56.2
+#13 6.485   Downloading googleapis_common_protos-1.66.0-py2.py3-none-any.whl (221 kB)
+#13 6.524      ━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━ 221.7/221.7 kB 6.1 MB/s eta 0:00:00
+#13 6.690 Collecting google-auth<3.0.dev0,>=2.14.1
+#13 6.712   Downloading google_auth-2.36.0-py2.py3-none-any.whl (209 kB)
+#13 6.762      ━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━ 209.5/209.5 kB 4.4 MB/s eta 0:00:00
+#13 7.981 Collecting grpcio<2.0dev,>=1.33.2
+#13 8.004   Downloading grpcio-1.68.0-cp39-cp39-manylinux_2_17_x86_64.manylinux2014_x86_64.whl (5.9 MB)
+#13 ...
+
+#15 [frontend-service 6/7] RUN pip install --no-cache-dir -r requirements.txt
+#15 8.408 
+#15 8.408 [notice] A new release of pip is available: 23.0.1 -> 24.3.1
+#15 8.408 [notice] To update, run: pip install --upgrade pip
+#15 DONE 8.7s
+
+#13 [calculator-service 5/6] RUN pip install --no-cache-dir -r requirements.txt
+#13 9.250      ━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━ 5.9/5.9 MB 4.8 MB/s eta 0:00:00
+#13 9.400 Collecting grpcio-status<2.0.dev0,>=1.33.2
+#13 ...
+
+#16 [frontend-service 7/7] COPY . .
+#16 DONE 0.2s
+
+#13 [calculator-service 5/6] RUN pip install --no-cache-dir -r requirements.txt
+#13 9.428   Downloading grpcio_status-1.68.0-py3-none-any.whl (14 kB)
+#13 9.593 Collecting pyasn1-modules>=0.2.1
+#13 9.639   Downloading pyasn1_modules-0.4.1-py3-none-any.whl (181 kB)
+#13 9.653      ━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━ 181.5/181.5 kB 30.0 MB/s eta 0:00:00
+#13 9.701 Collecting rsa<5,>=3.1.4
+#13 ...
+
+#17 [frontend-service] exporting to image
+#17 exporting layers 0.3s done
+#17 writing image sha256:8fe6d486906c49b7499e370b09c7d78770d7e4e4062d50d5d6a81c85953996fd done
+#17 naming to docker.io/library/inksight-frontend-service 0.0s done
+#17 DONE 0.3s
+
+#13 [calculator-service 5/6] RUN pip install --no-cache-dir -r requirements.txt
+#13 9.725   Downloading rsa-4.9-py3-none-any.whl (34 kB)
+#13 9.797 Collecting cachetools<6.0,>=2.0.0
+#13 9.816   Downloading cachetools-5.5.0-py3-none-any.whl (9.5 kB)
+#13 9.968 Collecting grpcio-status<2.0.dev0,>=1.33.2
+#13 9.988   Downloading grpcio_status-1.67.1-py3-none-any.whl (14 kB)
+#13 10.03   Downloading grpcio_status-1.67.0-py3-none-any.whl (14 kB)
+#13 10.07   Downloading grpcio_status-1.66.2-py3-none-any.whl (14 kB)
+#13 10.10   Downloading grpcio_status-1.66.1-py3-none-any.whl (14 kB)
+#13 10.14   Downloading grpcio_status-1.66.0-py3-none-any.whl (14 kB)
+#13 10.17   Downloading grpcio_status-1.65.5-py3-none-any.whl (14 kB)
+#13 10.20   Downloading grpcio_status-1.65.4-py3-none-any.whl (14 kB)
+#13 10.25   Downloading grpcio_status-1.65.2-py3-none-any.whl (14 kB)
+#13 10.29   Downloading grpcio_status-1.65.1-py3-none-any.whl (14 kB)
+#13 10.32   Downloading grpcio_status-1.64.3-py3-none-any.whl (14 kB)
+#13 10.36   Downloading grpcio_status-1.64.1-py3-none-any.whl (14 kB)
+#13 10.40   Downloading grpcio_status-1.64.0-py3-none-any.whl (14 kB)
+#13 10.44   Downloading grpcio_status-1.63.2-py3-none-any.whl (14 kB)
+#13 10.47   Downloading grpcio_status-1.63.0-py3-none-any.whl (14 kB)
+#13 10.51   Downloading grpcio_status-1.62.3-py3-none-any.whl (14 kB)
+#13 10.64 Collecting certifi>=2017.4.17
+#13 10.66   Downloading certifi-2024.8.30-py3-none-any.whl (167 kB)
+#13 10.69      ━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━ 167.3/167.3 kB 5.2 MB/s eta 0:00:00
+#13 10.84 Collecting charset-normalizer<4,>=2
+#13 10.87   Downloading charset_normalizer-3.4.0-cp39-cp39-manylinux_2_17_x86_64.manylinux2014_x86_64.whl (144 kB)
+#13 10.89      ━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━ 144.9/144.9 kB 10.0 MB/s eta 0:00:00
+#13 10.95 Collecting urllib3<3,>=1.21.1
+#13 10.97   Downloading urllib3-2.2.3-py3-none-any.whl (126 kB)
+#13 10.99      ━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━ 126.3/126.3 kB 7.1 MB/s eta 0:00:00
+#13 11.02 Collecting idna<4,>=2.5
+#13 11.04   Downloading idna-3.10-py3-none-any.whl (70 kB)
+#13 11.05      ━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━ 70.4/70.4 kB 20.8 MB/s eta 0:00:00
+#13 11.14 Collecting pyasn1<0.7.0,>=0.4.6
+#13 11.16   Downloading pyasn1-0.6.1-py3-none-any.whl (83 kB)
+#13 11.19      ━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━ 83.1/83.1 kB 2.9 MB/s eta 0:00:00
+#13 11.37 Installing collected packages: urllib3, python-dotenv, pyasn1, protobuf, Pillow, MarkupSafe, itsdangerous, idna, grpcio, click, charset-normalizer, certifi, cachetools, Werkzeug, rsa, requests, pyasn1-modules, proto-plus, Jinja2, googleapis-common-protos, grpcio-status, google-auth, Flask, google-api-core, google-ai-generativelanguage, google-generativeai
+#13 13.45 Successfully installed Flask-2.0.1 Jinja2-3.1.4 MarkupSafe-3.0.2 Pillow-9.0.0 Werkzeug-3.1.3 cachetools-5.5.0 certifi-2024.8.30 charset-normalizer-3.4.0 click-8.1.7 google-ai-generativelanguage-0.2.0 google-api-core-2.23.0 google-auth-2.36.0 google-generativeai-0.1.0 googleapis-common-protos-1.66.0 grpcio-1.68.0 grpcio-status-1.62.3 idna-3.10 itsdangerous-2.2.0 proto-plus-1.25.0 protobuf-4.25.5 pyasn1-0.6.1 pyasn1-modules-0.4.1 python-dotenv-0.19.0 requests-2.32.3 rsa-4.9 urllib3-2.2.3
+#13 13.45 WARNING: Running pip as the 'root' user can result in broken permissions and conflicting behaviour with the system package manager. It is recommended to use a virtual environment instead: https://pip.pypa.io/warnings/venv
+#13 13.60 
+#13 13.60 [notice] A new release of pip is available: 23.0.1 -> 24.3.1
+#13 13.60 [notice] To update, run: pip install --upgrade pip
+#13 DONE 14.1s
+
+#18 [calculator-service 6/6] COPY . .
+#18 DONE 0.1s
+
+#19 [calculator-service] exporting to image
+#19 exporting layers 0.5s done
+#19 writing image sha256:d943fc510d018f1c02944c6cff9bc02ea7bd4ba025d9e5779f4997f42fd83876 done
+#19 naming to docker.io/library/inksight-calculator-service 0.0s done
+#19 DONE 0.5s
+
+#20 [api-gateway internal] load build definition from Dockerfile
+#20 transferring dockerfile: 545B 0.0s done
+#20 DONE 0.1s
+
+#21 [api-gateway internal] load .dockerignore
+#21 transferring context: 2B done
+#21 DONE 0.1s
+
+#5 [api-gateway internal] load metadata for docker.io/library/python:3.9-slim
+#5 DONE 4.0s
+
+#8 [api-gateway 1/6] FROM docker.io/library/python:3.9-slim@sha256:6250eb7983c08b3cf5a7db9309f8630d3ca03dd152158fa37a3f8daaf397085d
+#8 DONE 15.0s
+
+#22 [api-gateway internal] load build context
+#22 transferring context: 2.21kB done
+#22 DONE 0.1s
+
+#9 [api-gateway 2/6] WORKDIR /app
+#9 CACHED
+
+#10 [api-gateway 3/6] RUN apt-get update &&     apt-get install -y --no-install-recommends     curl     && rm -rf /var/lib/apt/lists/*
+#10 CACHED
+
+#23 [api-gateway 4/6] COPY requirements.txt .
+#23 DONE 0.1s
+
+#24 [api-gateway 5/6] RUN pip install --no-cache-dir -r requirements.txt
+#24 2.025 Collecting Flask==2.0.1
+#24 2.109   Downloading Flask-2.0.1-py3-none-any.whl (94 kB)
+#24 2.134      ━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━ 94.8/94.8 kB 4.0 MB/s eta 0:00:00
+#24 2.192 Collecting requests==2.26.0
+#24 2.207   Downloading requests-2.26.0-py2.py3-none-any.whl (62 kB)
+#24 2.211      ━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━ 62.3/62.3 kB 199.9 MB/s eta 0:00:00
+#24 2.241 Collecting python-dotenv==0.19.0
+#24 2.274   Downloading python_dotenv-0.19.0-py2.py3-none-any.whl (17 kB)
+#24 2.326 Collecting itsdangerous>=2.0
+#24 2.342   Downloading itsdangerous-2.2.0-py3-none-any.whl (16 kB)
+#24 2.405 Collecting Werkzeug>=2.0
+#24 2.419   Downloading werkzeug-3.1.3-py3-none-any.whl (224 kB)
+#24 2.435      ━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━ 224.5/224.5 kB 18.8 MB/s eta 0:00:00
+#24 2.472 Collecting click>=7.1.2
+#24 2.493   Downloading click-8.1.7-py3-none-any.whl (97 kB)
+#24 2.498      ━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━ 97.9/97.9 kB 349.9 MB/s eta 0:00:00
+#24 2.538 Collecting Jinja2>=3.0
+#24 2.555   Downloading jinja2-3.1.4-py3-none-any.whl (133 kB)
+#24 2.560      ━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━ 133.3/133.3 kB 506.8 MB/s eta 0:00:00
+#24 2.610 Collecting idna<4,>=2.5
+#24 2.655   Downloading idna-3.10-py3-none-any.whl (70 kB)
+#24 2.675      ━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━ 70.4/70.4 kB 36.9 MB/s eta 0:00:00
+#24 2.909 Collecting charset-normalizer~=2.0.0
+#24 2.928   Downloading charset_normalizer-2.0.12-py3-none-any.whl (39 kB)
+#24 2.993 Collecting urllib3<1.27,>=1.21.1
+#24 3.008   Downloading urllib3-1.26.20-py2.py3-none-any.whl (144 kB)
+#24 3.016      ━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━ 144.2/144.2 kB 29.9 MB/s eta 0:00:00
+#24 3.062 Collecting certifi>=2017.4.17
+#24 3.078   Downloading certifi-2024.8.30-py3-none-any.whl (167 kB)
+#24 3.086      ━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━ 167.3/167.3 kB 48.2 MB/s eta 0:00:00
+#24 3.233 Collecting MarkupSafe>=2.0
+#24 3.252   Downloading MarkupSafe-3.0.2-cp39-cp39-manylinux_2_17_x86_64.manylinux2014_x86_64.whl (20 kB)
+#24 3.385 Installing collected packages: urllib3, python-dotenv, MarkupSafe, itsdangerous, idna, click, charset-normalizer, certifi, Werkzeug, requests, Jinja2, Flask
+#24 4.173 Successfully installed Flask-2.0.1 Jinja2-3.1.4 MarkupSafe-3.0.2 Werkzeug-3.1.3 certifi-2024.8.30 charset-normalizer-2.0.12 click-8.1.7 idna-3.10 itsdangerous-2.2.0 python-dotenv-0.19.0 requests-2.26.0 urllib3-1.26.20
+#24 4.173 WARNING: Running pip as the 'root' user can result in broken permissions and conflicting behaviour with the system package manager. It is recommended to use a virtual environment instead: https://pip.pypa.io/warnings/venv
+#24 4.323 
+#24 4.323 [notice] A new release of pip is available: 23.0.1 -> 24.3.1
+#24 4.323 [notice] To update, run: pip install --upgrade pip
+#24 DONE 4.5s
+
+#25 [api-gateway 6/6] COPY . .
+#25 DONE 0.2s
+
+#26 [api-gateway] exporting to image
+#26 exporting layers
+#26 exporting layers 0.2s done
+#26 writing image sha256:69bb8b1cc4bb6d4cf62cf3abbe775b403a2cfec7d55042be98dc671d6a93bae9 done
+#26 naming to docker.io/library/inksight-api-gateway 0.0s done
+#26 DONE 0.3s
+ Network inksight_default  Creating
+ Network inksight_default  Created
+ Container inksight-frontend-service-1  Creating
+ Container inksight-calculator-service-1  Creating
+ Container inksight-frontend-service-1  Created
+ Container inksight-calculator-service-1  Created
+ Container inksight-api-gateway-1  Creating
+ Container inksight-api-gateway-1  Created
+Attaching to api-gateway-1, calculator-service-1, frontend-service-1
+calculator-service-1  | Traceback (most recent call last):
+calculator-service-1  |   File "/app/app.py", line 1, in <module>
+calculator-service-1  |     from flask import Flask, request, jsonify
+calculator-service-1  |   File "/usr/local/lib/python3.9/site-packages/flask/__init__.py", line 7, in <module>
+calculator-service-1  |     from .app import Flask as Flask
+calculator-service-1  |   File "/usr/local/lib/python3.9/site-packages/flask/app.py", line 28, in <module>
+calculator-service-1  |     from . import cli
+calculator-service-1  |   File "/usr/local/lib/python3.9/site-packages/flask/cli.py", line 18, in <module>
+calculator-service-1  |     from .helpers import get_debug_flag
+calculator-service-1  |   File "/usr/local/lib/python3.9/site-packages/flask/helpers.py", line 16, in <module>
+calculator-service-1  |     from werkzeug.urls import url_quote
+calculator-service-1  | ImportError: cannot import name 'url_quote' from 'werkzeug.urls' (/usr/local/lib/python3.9/site-packages/werkzeug/urls.py)
+frontend-service-1    | Traceback (most recent call last):
+frontend-service-1    |   File "/app/app.py", line 1, in <module>
+frontend-service-1    |     from flask import Flask, render_template,jsonify  
+frontend-service-1    |   File "/usr/local/lib/python3.9/site-packages/flask/__init__.py", line 7, in <module>
+frontend-service-1    |     from .app import Flask as Flask
+frontend-service-1    |   File "/usr/local/lib/python3.9/site-packages/flask/app.py", line 28, in <module>
+frontend-service-1    |     from . import cli
+frontend-service-1    |   File "/usr/local/lib/python3.9/site-packages/flask/cli.py", line 18, in <module>
+frontend-service-1    |     from .helpers import get_debug_flag
+frontend-service-1    |   File "/usr/local/lib/python3.9/site-packages/flask/helpers.py", line 16, in <module>
+frontend-service-1    |     from werkzeug.urls import url_quote
+frontend-service-1    | ImportError: cannot import name 'url_quote' from 'werkzeug.urls' (/usr/local/lib/python3.9/site-packages/werkzeug/urls.py)
+calculator-service-1 exited with code 1
+frontend-service-1 exited with code 1
+dependency failed to start: container inksight-frontend-service-1 exited (1)
