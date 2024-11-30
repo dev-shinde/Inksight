@@ -1,10 +1,6 @@
 {% extends "base.html" %}
 {% block content %}
 <div class="container">
-    <button onclick="window.location.href='/'" class="btn back-btn">
-        Back to Home
-    </button>
-
     <div class="toolbar">
         <button onclick="resetCanvas()">Reset</button>
         <div class="color-picker">
@@ -12,23 +8,26 @@
             <div class="color" style="background: red" onclick="setColor('red')"></div>
             <div class="color" style="background: blue" onclick="setColor('blue')"></div>
         </div>
-        <button onclick="calculate()" id="calculateBtn">Calculate</button>
+        <div class="action-buttons">
+            <button onclick="calculate()" id="calculateBtn">Calculate</button>
+            <a href="/document" class="btn">Document</a>
+        </div>
     </div>
-    
+
     <canvas id="drawingCanvas"></canvas>
     
-    <div id="resultPanel" class="hidden">
+    <div id="resultPanel">
         <div class="result-item">
             <span class="result-label">Expression:</span>
-            <span id="expressionText"></span>
+            <span class="result-content expression" id="expressionText">3+7</span>
         </div>
         <div class="result-item">
             <span class="result-label">Result:</span>
-            <span id="resultText"></span>
+            <span class="result-content result" id="resultText">10</span>
         </div>
         <div class="result-item">
             <span class="result-label">Explanation:</span>
-            <span id="explanationText"></span>
+            <span class="result-content explanation" id="explanationText">Addition of 3 and 7</span>
         </div>
     </div>
 </div>
