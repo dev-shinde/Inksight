@@ -43,3 +43,7 @@ services:
       interval: 10s
       timeout: 5s
       retries: 3
+    environment:
+      - CALCULATOR_SERVICE_URL=http://calculator-service:5002
+    depends_on:
+      - calculator-service

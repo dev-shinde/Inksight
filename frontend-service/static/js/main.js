@@ -10,33 +10,24 @@ function calculate() {
             'Content-Type': 'application/json',
         },
         body: JSON.stringify({
-            image: canvas.toDataURL(),
-            dict_of_vars: {}
+            image: canvas.toDataURL()
         })
     })
     .then(response => response.json())
     .then(data => {
         if (data.status === 'success') {
             const result = data.data[0];
-            // Update the result panel with clean formatting
             document.getElementById('expressionText').textContent = result.expr;
             document.getElementById('resultText').textContent = result.result;
             document.getElementById('explanationText').textContent = result.explanation;
-            
-            // Show the result panel with a fade effect
-            const resultPanel = document.getElementById('resultPanel');
-            resultPanel.style.opacity = '0';
-            resultPanel.style.display = 'flex';
-            setTimeout(() => {
-                resultPanel.style.opacity = '1';
-            }, 10);
+            document.getElementById('resultPanel').classList.remove('hidden');
+        } else {
+            alert('Error: ' + data.message);
         }
     })
     .catch(error => {
         console.error('Error:', error);
-        document.getElementById('expressionText').textContent = 'Error processing request';
-        document.getElementById('resultText').textContent = '';
-        document.getElementById('explanationText').textContent = '';
+        alert('Error processing request');
     })
     .finally(() => {
         btn.disabled = false;

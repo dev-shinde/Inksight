@@ -1,0 +1,15 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <title>AI Calculator</title>
+    <link rel="stylesheet" href="{{ url_for('static', filename='css/style.css') }}">
+</head>
+<body>
+    {% block content %}{% endblock %}
+    
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/mathjax/2.7.9/MathJax.js?config=TeX-MML-AM_CHTML"></script>
+    <script src="{{ url_for('static', filename='js/canvas.js') }}"></script>
+    <script src="{{ url_for('static', filename='js/main.js') }}"></script>
+    {% block scripts %}{% endblock %}
+</body>
+</html>

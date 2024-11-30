@@ -1,22 +1,12 @@
 FROM python:3.8-slim
 
 WORKDIR /app
-
-# Install system dependencies
-RUN apt-get update && \
-    apt-get install -y --no-install-recommends \
-    curl \
-    && rm -rf /var/lib/apt/lists/*
-
-# Install Python dependencies
+RUN apt-get update && apt-get install -y curl
 COPY requirements.txt .
 RUN pip install --no-cache-dir -r requirements.txt
 
-# Copy application code
 COPY . .
-
-# Create directories if they don't exist
-RUN mkdir -p static templates
+RUN mkdir -p static/css static/js templates
 
 EXPOSE 5001
 ENV FLASK_APP=app.py
