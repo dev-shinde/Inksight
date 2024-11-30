@@ -1,0 +1,399 @@
+/* Base Styles */
+body {
+    margin: 0;
+    padding: 0;
+    background: #000;
+    color: white;
+}
+
+/* Layout Components */
+.container {
+    height: 100vh;
+    display: flex;
+    flex-direction: column;
+}
+
+.toolbar {
+    position: fixed;
+    top: 0;
+    left: 0;
+    right: 0;
+    padding: 1rem;
+    background: rgba(0, 0, 0, 0.8);
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    z-index: 100;
+}
+
+/* Drawing Tools */
+.color-picker {
+    display: flex;
+    gap: 10px;
+}
+
+.color {
+    width: 24px;
+    height: 24px;
+    border-radius: 50%;
+    cursor: pointer;
+}
+
+canvas {
+    flex: 1;
+    margin-top: 60px;
+}
+
+#resultPanel {
+    position: fixed;
+    bottom: 0;
+    left: 0;
+    right: 0;
+    padding: 2rem;
+    background: rgba(0, 0, 0, 0.95);
+    min-height: 120px;
+    display: flex;
+    flex-direction: column;
+    gap: 1.5rem;
+    font-family: 'Courier New', monospace;
+    align-items: center;  /* Center content horizontally */
+    transition: opacity 0.3s ease;
+}
+
+.result-item {
+    display: flex;
+    align-items: center;  /* Center content vertically */
+    gap: 2rem;
+    width: 100%;
+    max-width: 600px;  /* Control maximum width */
+}
+
+.welcome-container {
+    height: 100vh;
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+    background: #000;
+    gap: 50px;
+}
+
+.welcome-title {
+    font-size: 4rem;
+    color: white;
+    text-align: center;
+    font-weight: bold;
+    text-shadow: 0 0 10px rgba(255,255,255,0.5);
+}
+
+.button-container {
+    display: flex;
+    gap: 30px;
+}
+
+.welcome-button {
+    padding: 15px 30px;
+    font-size: 1.2rem;
+    background: #22c55e;
+    color: white;
+    border: none;
+    border-radius: 8px;
+    cursor: pointer;
+    text-decoration: none;
+    transition: transform 0.2s;
+}
+
+
+
+.welcome-button:hover {
+    transform: scale(1.05);
+    background: #16a34a;
+}
+
+.back-button {
+    position: absolute;
+    top: 20px;
+    left: 20px;
+    padding: 10px 20px;
+    background: #333;
+    color: white;
+    border: none;
+    border-radius: 4px;
+    text-decoration: none;
+}
+
+.doc-title {
+    text-align: center;
+    font-size: 2.5rem;
+    margin: 60px 0;
+    color: white;
+}
+
+.upload-container {
+    display: flex;
+    justify-content: center;
+    gap: 20px;
+    margin-top: 50px;
+}
+
+.upload-btn {
+    padding: 20px 40px;
+    background: #333;
+    color: white;
+    border: none;
+    border-radius: 8px;
+    cursor: pointer;
+    font-size: 1.1rem;
+}
+
+.upload-btn:hover {
+    background: #444;
+}
+
+.result-label {
+    min-width: 120px;
+    color: #888;  /* Lighter gray for better visibility */
+    font-size: 1.1rem;
+    font-weight: 500;
+    text-transform: uppercase;
+    letter-spacing: 1px;
+}
+
+.result-content {
+    font-size: 1.2rem;
+    font-weight: 500;
+}
+
+.result-content.expression {
+    color: #E0E0E0;  /* Lighter color for better visibility */
+    letter-spacing: 0.5px;
+}
+
+.result-content.result {
+    color: #4CAF50;  /* Keep the green, but make it brighter */
+    font-size: 1.4rem;  /* Make result slightly larger */
+    font-weight: bold;
+}
+
+.result-content.explanation {
+    color: #BDBDBD;  /* Lighter gray for explanation */
+    font-size: 1.1rem;
+    line-height: 1.4;
+}
+
+/* Add subtle hover effect */
+.result-item:hover {
+    background: rgba(255, 255, 255, 0.03);
+    border-radius: 8px;
+    padding: 8px 16px;
+    margin: -8px -16px;
+    transition: all 0.3s ease;
+}
+
+/* Optional: Add animation when results appear */
+@keyframes fadeIn {
+    from { opacity: 0; transform: translateY(10px); }
+    to { opacity: 1; transform: translateY(0); }
+}
+
+.result-item {
+    animation: fadeIn 0.3s ease forwards;
+}
+
+/* Stagger animations for each item */
+.result-item:nth-child(1) { animation-delay: 0s; }
+.result-item:nth-child(2) { animation-delay: 0.1s; }
+.result-item:nth-child(3) { animation-delay: 0.2s; }
+
+#result {
+    font-size: 2rem;
+    font-weight: bold;
+    margin-bottom: 0.5rem;
+}
+
+#explanation {
+    font-size: 1.2rem;
+    max-width: 800px;
+    margin: 0 auto;
+    line-height: 1.5;
+    color: #ccc;
+}
+
+/* Document Page Styles */
+.document-container {
+    max-width: 800px;
+    margin: 80px auto 0;
+    padding: 0 20px;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+}
+
+.page-title {
+    text-align: center;
+    font-size: 2.5rem;
+    margin-bottom: 2rem;
+}
+
+/* File Upload Section */
+.upload-section {
+    width: 100%;
+    background: rgba(255, 255, 255, 0.05);
+    border-radius: 12px;
+    padding: 2rem;
+    margin-bottom: 2rem;
+}
+
+.upload-form {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    gap: 20px;
+}
+
+/* Buttons and Interactive Elements */
+button, .btn {
+    padding: 12px 24px;
+    background: #333;
+    color: white;
+    border: none;
+    border-radius: 4px;
+    cursor: pointer;
+    font-size: 16px;
+    margin: 10px;
+    min-width: 150px;
+}
+
+button:hover, .btn:hover {
+    background: #444;
+}
+
+.btn {
+    text-decoration: none;
+    display: inline-block;
+}
+
+/* Loading States */
+.loading-spinner {
+    display: none;
+    flex-direction: column;
+    align-items: center;
+    gap: 1rem;
+    margin: 1rem 0;
+}
+
+.spinner {
+    width: 40px;
+    height: 40px;
+    border: 4px solid rgba(255, 255, 255, 0.1);
+    border-left-color: #4CAF50;
+    border-radius: 50%;
+    animation: spin 1s linear infinite;
+}
+
+@keyframes spin {
+    to { transform: rotate(360deg); }
+}
+
+/* Summary Display */
+.summary-panel {
+    background: rgba(255, 255, 255, 0.05);
+    border-radius: 12px;
+    padding: 2rem;
+    margin-top: 20px;
+    width: 100%;
+}
+
+.upload-options {
+    display: flex;
+    gap: 20px;
+    justify-content: center;
+    margin-bottom: 20px;
+}
+
+.upload-option {
+    text-align: center;
+}
+
+.upload-label, .drive-btn {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    gap: 10px;
+    padding: 20px;
+    border-radius: 8px;
+    background: rgba(255, 255, 255, 0.1);
+    cursor: pointer;
+    transition: all 0.3s ease;
+}
+
+.upload-label:hover, .drive-btn:hover {
+    background: rgba(255, 255, 255, 0.2);
+}
+
+.upload-icon, .drive-icon {
+    width: 32px;
+    height: 32px;
+    fill: white;
+}
+
+.hidden {
+    display: none;
+}
+
+/* Drive File List */
+.drive-files {
+    margin-top: 20px;
+    background: rgba(255, 255, 255, 0.05);
+    border-radius: 8px;
+    padding: 10px;
+    max-height: 300px;
+    overflow-y: auto;
+}
+
+.drive-file {
+    display: flex;
+    align-items: center;
+    gap: 10px;
+    padding: 10px;
+    border-radius: 4px;
+    cursor: pointer;
+    transition: background-color 0.2s ease;
+}
+
+.drive-file:hover {
+    background: rgba(255, 255, 255, 0.1);
+}
+
+.drive-file.selected {
+    background: rgba(76, 175, 80, 0.2);
+}
+
+.file-icon {
+    width: 24px;
+    height: 24px;
+    fill: white;
+}
+
+/* Responsive Design */
+@media (max-width: 768px) {
+    .page-title {
+        font-size: 2rem;
+    }
+    
+    .upload-section {
+        padding: 1.5rem;
+    }
+    
+    #result {
+        font-size: 1.5rem;
+    }
+    
+    #explanation {
+        font-size: 1rem;
+    }
+    
+    #resultPanel {
+        padding: 1rem;
+    }
+}
