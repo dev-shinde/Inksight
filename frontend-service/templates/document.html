@@ -1,0 +1,78 @@
+{% extends "base.html" %}
+{% block content %}
+<div class="document-page">
+    <button onclick="window.location.href='/'" class="btn back-btn">
+        Back to Home
+    </button>
+    
+    <h1 class="page-title">Document Summarizer</h1>
+    
+    <div class="upload-section">
+        <div class="upload-options">
+            <form id="uploadForm">
+                <label for="fileInput" class="upload-label">
+                    <svg class="upload-icon" viewBox="0 0 24 24">
+                        <path d="M19 13h-6v6h-2v-6H5v-2h6V5h2v6h6v2z"/>
+                    </svg>
+                    Upload PDF
+                </label>
+                <input type="file" id="fileInput" accept=".pdf" class="hidden">
+            </form>
+        </div>
+        
+        <div id="loading" class="loading-spinner hidden">
+            <div class="spinner"></div>
+            <span>Processing document...</span>
+        </div>
+        
+        <div id="summary" class="summary-panel"></div>
+    </div>
+</div>
+{% endblock %}
+
+{% block scripts %}
+<script>
+document.getElementById('fileInput').addEventListener('change', async (e) => {
+    if (e.target.files.length > 0) {
+        const file = e.target.files[0];
+        const loading = document.getElementById('loading');
+        const summaryDiv = document.getElementById('summary');
+        
+        try {
+            loading.classList.remove('hidden');
+            summaryDiv.textContent = '';
+            
+            const formData = new FormData();
+            formData.append('file', file);
+            
+            const response = await fetch('/summarize', {
+                method: 'POST',
+                body: formData
+            });
+            
+            const data = await response.json();
+            
+            if (data.status === 'success') {
+                summaryDiv.innerHTML = `
+                    <div class="summary-content">
+                        <h2>Summary</h2>
+                        <div class="summary-text">${data.summary.replace(/\n/g, '<br>')}</div>
+                    </div>`;
+            } else {
+                summaryDiv.innerHTML = `
+                    <div class="error-message">
+                        Error: ${data.message}
+                    </div>`;
+            }
+        } catch (error) {
+            summaryDiv.innerHTML = `
+                <div class="error-message">
+                    Error: ${error.message}
+                </div>`;
+        } finally {
+            loading.classList.add('hidden');
+        }
+    }
+});
+</script>
+{% endblock %}
