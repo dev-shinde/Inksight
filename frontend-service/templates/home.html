@@ -1,0 +1,40 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <title>AI Calculator</title>
+    <link rel="stylesheet" href="{{ url_for('static', filename='css/style.css') }}">
+</head>
+<body>
+    <div class="container">
+        <div class="toolbar">
+            <button onclick="resetCanvas()">Reset</button>
+            <div class="color-picker">
+                <div class="color" style="background: white" onclick="setColor('white')"></div>
+                <div class="color" style="background: red" onclick="setColor('red')"></div>
+                <div class="color" style="background: blue" onclick="setColor('blue')"></div>
+            </div>
+            <button onclick="calculate()" id="calculateBtn">Calculate</button>
+        </div>
+        
+        <canvas id="drawingCanvas"></canvas>
+        
+        <div id="resultPanel" class="hidden">
+            <div class="result-item">
+                <span class="result-label">Expression:</span>
+                <span id="expressionText"></span>
+            </div>
+            <div class="result-item">
+                <span class="result-label">Result:</span>
+                <span id="resultText"></span>
+            </div>
+            <div class="result-item">
+                <span class="result-label">Explanation:</span>
+                <span id="explanationText"></span>
+            </div>
+        </div>
+    </div>
+
+    <script src="{{ url_for('static', filename='js/canvas.js') }}"></script>
+    <script src="{{ url_for('static', filename='js/main.js') }}"></script>
+</body>
+</html>

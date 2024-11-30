@@ -1,0 +1,45 @@
+services:
+  api-gateway:
+    build: 
+      context: ./api-gateway
+      dockerfile: Dockerfile
+    ports:
+      - "5000:5000"
+    environment:
+      - FRONTEND_SERVICE_URL=http://frontend-service:5001
+      - CALCULATOR_SERVICE_URL=http://calculator-service:5002
+    depends_on:
+      frontend-service:
+        condition: service_healthy
+      calculator-service:
+        condition: service_healthy
+    healthcheck:
+      test: ["CMD", "curl", "-f", "http://localhost:5000/health"]
+      interval: 10s
+      timeout: 5s
+      retries: 3
+
+  calculator-service:
+    build: 
+      context: ./calculator-service
+      dockerfile: Dockerfile
+    environment:
+      - GEMINI_API_KEY=${GEMINI_API_KEY}
+    healthcheck:
+      test: ["CMD", "curl", "-f", "http://localhost:5002/health"]
+      interval: 10s
+      timeout: 5s
+      retries: 3
+
+  frontend-service:
+    build: 
+      context: ./frontend-service
+      dockerfile: Dockerfile
+    volumes:
+      - ./frontend-service/static:/app/static
+      - ./frontend-service/templates:/app/templates
+    healthcheck:
+      test: ["CMD", "curl", "-f", "http://localhost:5001/health"]
+      interval: 10s
+      timeout: 5s
+      retries: 3
