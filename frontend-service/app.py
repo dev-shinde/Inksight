@@ -1,12 +1,13 @@
-from flask import Flask, render_template, jsonify, request
+# frontend-service/app.py
+from flask import Flask, render_template, jsonify, request, session, redirect
 import os
 from dotenv import load_dotenv
 import requests
 
 load_dotenv()
 app = Flask(__name__)
+app.secret_key = os.getenv('SECRET_KEY', 'your-secret-key-here')
 
-# Service URLs
 CALCULATOR_SERVICE_URL = os.getenv('CALCULATOR_SERVICE_URL', 'http://calculator-service:5002')
 DOCUMENT_SERVICE_URL = os.getenv('DOCUMENT_SERVICE_URL', 'http://document-service:5003')
 
@@ -18,16 +19,11 @@ def health_check():
 def welcome():
     return render_template('welcome.html')
 
-@app.route('/calculator')
-def calculator():
-    return render_template('home.html')
-
 @app.route('/calculate', methods=['GET', 'POST'])
 def calculate():
     if request.method == 'GET':
         return render_template('home.html')
     
-    # POST request handling for calculations
     try:
         calculator_response = requests.post(
             f'{CALCULATOR_SERVICE_URL}/calculate',
@@ -44,34 +40,51 @@ def calculate():
 def document():
     return render_template('document.html')
 
-@app.route('/upload', methods=['POST'])
-def upload():
+@app.route('/document/upload', methods=['POST'])
+def upload_document():
     try:
-        file = request.files.get('file')
-        if not file:
-            return jsonify({'status': 'error', 'message': 'No file provided'}), 400
-
-        # Forward the file to the document service
-        files = {'file': (file.filename, file.read(), file.content_type)}
+        files = {'file': request.files['file']}
         response = requests.post(
             f'{DOCUMENT_SERVICE_URL}/upload',
             files=files
         )
-        return response.json(), response.status_code
+        return response.json()
     except Exception as e:
         return jsonify({
             'status': 'error',
             'message': str(e)
         }), 500
 
-# Google Drive routes
+# Google Drive Integration Routes
 @app.route('/google-auth')
 def google_auth():
     try:
         response = requests.get(f'{DOCUMENT_SERVICE_URL}/google-auth')
-        return response.json(), response.status_code
+        auth_data = response.json()
+        if 'auth_url' in auth_data:
+            return redirect(auth_data['auth_url'])
+        return jsonify(auth_data), response.status_code
     except Exception as e:
-        return jsonify({'error': str(e)}), 500
+        return jsonify({
+            'status': 'error',
+            'message': str(e)
+        }), 500
+
+@app.route('/oauth2callback')
+def oauth2callback():
+    try:
+        response = requests.get(
+            f'{DOCUMENT_SERVICE_URL}/oauth2callback',
+            params=request.args
+        )
+        if response.status_code == 302:  # Handle redirects
+            return redirect(response.headers['Location'])
+        return response.content, response.status_code
+    except Exception as e:
+        return jsonify({
+            'status': 'error',
+            'message': str(e)
+        }), 500
 
 @app.route('/list-drive-files')
 def list_drive_files():
@@ -79,7 +92,10 @@ def list_drive_files():
         response = requests.get(f'{DOCUMENT_SERVICE_URL}/list-drive-files')
         return response.json(), response.status_code
     except Exception as e:
-        return jsonify({'error': str(e)}), 500
+        return jsonify({
+            'status': 'error',
+            'message': str(e)
+        }), 500
 
 @app.route('/get-drive-file/<file_id>')
 def get_drive_file(file_id):
@@ -87,7 +103,10 @@ def get_drive_file(file_id):
         response = requests.get(f'{DOCUMENT_SERVICE_URL}/get-drive-file/{file_id}')
         return response.json(), response.status_code
     except Exception as e:
-        return jsonify({'error': str(e)}), 500
+        return jsonify({
+            'status': 'error',
+            'message': str(e)
+        }), 500
 
 if __name__ == '__main__':
     app.run(host='0.0.0.0', port=5001, debug=True)

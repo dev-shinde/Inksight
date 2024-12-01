@@ -93,20 +93,21 @@ document.getElementById('fileInput').addEventListener('change', async (e) => {
 // Handle Google Drive integration
 async function handleDriveClick() {
     try {
-        const response = await fetch('/document/google-auth');
+        const response = await fetch('/google-auth');
         const data = await response.json();
         if (data.auth_url) {
             window.location.href = data.auth_url;
+        } else {
+            console.error('No auth URL provided');
         }
     } catch (error) {
         console.error('Error:', error);
     }
 }
 
-// List Drive files
 async function listDriveFiles() {
     try {
-        const response = await fetch('/document/list-drive-files');
+        const response = await fetch('/list-drive-files');
         const data = await response.json();
         
         const driveFileList = document.getElementById('driveFileList');
@@ -126,7 +127,6 @@ async function listDriveFiles() {
     }
 }
 
-// Handle Drive file selection
 async function selectDriveFile(fileId) {
     const loading = document.getElementById('loading');
     const summaryDiv = document.getElementById('summary');
@@ -135,7 +135,7 @@ async function selectDriveFile(fileId) {
         loading.classList.remove('hidden');
         summaryDiv.textContent = '';
         
-        const response = await fetch(`/document/get-drive-file/${fileId}`);
+        const response = await fetch(`/get-drive-file/${fileId}`);
         const data = await response.json();
         
         if (data.status === 'success') {
