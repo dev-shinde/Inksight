@@ -21,6 +21,8 @@ services:
     environment:
       - FLASK_APP=app.py
       - FLASK_ENV=development
+      - CALCULATOR_SERVICE_URL=http://calculator-service:5002
+      - DOCUMENT_SERVICE_URL=http://document-service:5003
     volumes:
       - ./frontend-service/static:/app/static
       - ./frontend-service/templates:/app/templates
