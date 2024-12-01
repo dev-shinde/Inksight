@@ -31,9 +31,9 @@ def calculate():
             'message': str(e)
         }), 500
 
-if __name__ == '__main__':
-    app.run(host='0.0.0.0', port=5001, debug=True)
-
 @app.route('/document')
 def document():
     return render_template('document.html')
+
+if __name__ == '__main__':
+    app.run(host='0.0.0.0', port=5001, debug=True)

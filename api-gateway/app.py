@@ -8,7 +8,7 @@ app = Flask(__name__)
 
 SERVICES = {
     'frontend': os.getenv('FRONTEND_SERVICE_URL', 'http://frontend-service:5001'),
-    'calculator': os.getenv('CALCULATOR_SERVICE_URL', 'http://calculator-service:5002')
+    'calculator': os.getenv('CALCULATOR_SERVICE_URL', 'http://calculator-service:5002'),
 }
 
 @app.route('/health', methods=['GET'])
