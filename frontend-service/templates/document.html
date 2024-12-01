@@ -2,25 +2,24 @@
 {% block content %}
 <div class="document-page">
     <button onclick="window.location.href='/'" class="btn back-btn">
-        Back to InkSight
+        Back to Home
     </button>
-
+    
     <h1 class="page-title">Document Summarizer</h1>
     
     <div class="upload-section">
         <div class="upload-options">
             <div class="upload-option">
                 <form id="uploadForm">
-                    <label for="fileInput" class="upload-label" onclick="handleLocalFileClick()">
+                    <label for="fileInput" class="upload-label">
                         <svg class="upload-icon" viewBox="0 0 24 24">
                             <path d="M19 13h-6v6h-2v-6H5v-2h6V5h2v6h6v2z"/>
                         </svg>
                         Local File
                     </label>
-                    <input type="file" id="fileInput" accept=".pdf,.txt" class="hidden">
+                    <input type="file" id="fileInput" accept=".pdf" class="hidden">
                 </form>
             </div>
-            
             <div class="upload-option">
                 <button onclick="handleDriveClick()" class="drive-btn">
                     <svg class="drive-icon" viewBox="0 0 24 24">
@@ -32,12 +31,12 @@
                 </button>
             </div>
         </div>
-        
+
         <div id="driveFileList" class="drive-files hidden">
             <!-- Drive files will be listed here -->
         </div>
-        
-        <div id="loading" class="loading-spinner">
+
+        <div id="loading" class="loading-spinner hidden">
             <div class="spinner"></div>
             <span>Processing document...</span>
         </div>
@@ -47,49 +46,7 @@
 </div>
 
 <script>
-let selectedFile = null;
-
-// Handle local file click
-function handleLocalFileClick() {
-    // Hide drive files if shown
-    document.getElementById('driveFileList').classList.add('hidden');
-}
-
-// Handle drive button click
-async function handleDriveClick() {
-    const driveFileList = document.getElementById('driveFileList');
-    
-    // If already showing files, just hide them
-    if (!driveFileList.classList.contains('hidden')) {
-        driveFileList.classList.add('hidden');
-        return;
-    }
-
-    try {
-        const response = await fetch('/list-drive-files');
-        const data = await response.json();
-        
-        if (data.error === 'Not authenticated') {
-            // Not authenticated, redirect to auth
-            connectGoogleDrive();
-        } else if (data.files) {
-            // Show files
-            driveFileList.innerHTML = data.files.map(file => `
-                <div class="drive-file" onclick="selectDriveFile('${file.id}')">
-                    <svg class="file-icon" viewBox="0 0 24 24">
-                        <path d="M14 2H6a2 2 0 0 0-2 2v16a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V8z"></path>
-                    </svg>
-                    ${file.name}
-                </div>
-            `).join('');
-            driveFileList.classList.remove('hidden');
-        }
-    } catch (error) {
-        console.error('Error:', error);
-    }
-}
-
-// Handle local file selection
+// Handle local file uploads
 document.getElementById('fileInput').addEventListener('change', async (e) => {
     if (e.target.files.length > 0) {
         const file = e.target.files[0];
@@ -97,13 +54,13 @@ document.getElementById('fileInput').addEventListener('change', async (e) => {
         const summaryDiv = document.getElementById('summary');
         
         try {
-            loading.style.display = 'flex';
+            loading.classList.remove('hidden');
             summaryDiv.textContent = '';
             
             const formData = new FormData();
             formData.append('file', file);
             
-            const response = await fetch('/upload', {
+            const response = await fetch('/document/upload', {
                 method: 'POST',
                 body: formData
             });
@@ -128,30 +85,57 @@ document.getElementById('fileInput').addEventListener('change', async (e) => {
                     Error: ${error.message}
                 </div>`;
         } finally {
-            loading.style.display = 'none';
+            loading.classList.add('hidden');
         }
     }
 });
 
-async function connectGoogleDrive() {
+// Handle Google Drive integration
+async function handleDriveClick() {
     try {
-        const response = await fetch('/google-auth');
+        const response = await fetch('/document/google-auth');
         const data = await response.json();
-        window.location.href = data.auth_url;
+        if (data.auth_url) {
+            window.location.href = data.auth_url;
+        }
     } catch (error) {
         console.error('Error:', error);
     }
 }
 
+// List Drive files
+async function listDriveFiles() {
+    try {
+        const response = await fetch('/document/list-drive-files');
+        const data = await response.json();
+        
+        const driveFileList = document.getElementById('driveFileList');
+        if (data.files) {
+            driveFileList.innerHTML = data.files.map(file => `
+                <div class="drive-file" onclick="selectDriveFile('${file.id}')">
+                    <svg class="file-icon" viewBox="0 0 24 24">
+                        <path d="M14 2H6a2 2 0 0 0-2 2v16a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V8z"></path>
+                    </svg>
+                    ${file.name}
+                </div>
+            `).join('');
+            driveFileList.classList.remove('hidden');
+        }
+    } catch (error) {
+        console.error('Error:', error);
+    }
+}
+
+// Handle Drive file selection
 async function selectDriveFile(fileId) {
     const loading = document.getElementById('loading');
     const summaryDiv = document.getElementById('summary');
     
     try {
-        loading.style.display = 'flex';
+        loading.classList.remove('hidden');
         summaryDiv.textContent = '';
         
-        const response = await fetch(`/get-drive-file/${fileId}`);
+        const response = await fetch(`/document/get-drive-file/${fileId}`);
         const data = await response.json();
         
         if (data.status === 'success') {
@@ -172,7 +156,7 @@ async function selectDriveFile(fileId) {
                 Error: ${error.message}
             </div>`;
     } finally {
-        loading.style.display = 'none';
+        loading.classList.add('hidden');
     }
 }
 </script>
