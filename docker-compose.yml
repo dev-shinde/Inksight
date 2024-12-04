@@ -7,9 +7,11 @@ services:
     environment:
       - FRONTEND_SERVICE_URL=http://frontend-service:5001
       - CALCULATOR_SERVICE_URL=http://calculator-service:5002
+      - DOCUMENT_SERVICE_URL=http://document-service:5003
     depends_on:
       - frontend-service
       - calculator-service
+      - document-service
     networks:
       - inksight-network
 
@@ -21,6 +23,7 @@ services:
       - FLASK_ENV=development
       - SECRET_KEY=your-secret-key-here
       - CALCULATOR_SERVICE_URL=http://calculator-service:5002
+      - DOCUMENT_SERVICE_URL=http://document-service:5003
     volumes:
       - ./frontend-service/static:/app/static
       - ./frontend-service/templates:/app/templates
@@ -33,6 +36,17 @@ services:
     environment:
       - FLASK_APP=app.py
       - GEMINI_API_KEY=${GEMINI_API_KEY}
+    networks:
+      - inksight-network
+
+  document-service:
+    build:
+      context: ./document-service
+    environment:
+      - FLASK_APP=app.py
+      - ANTHROPIC_API_KEY=${ANTHROPIC_API_KEY}
+    volumes:
+      - ./credentials.json:/app/credentials.json
     networks:
       - inksight-network
 

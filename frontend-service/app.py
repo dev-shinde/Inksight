@@ -14,6 +14,7 @@ app = Flask(__name__)
 app.secret_key = os.getenv('SECRET_KEY', 'your-secret-key-here')
 
 CALCULATOR_SERVICE_URL = os.getenv('CALCULATOR_SERVICE_URL', 'http://calculator-service:5002')
+DOCUMENT_SERVICE_URL = os.getenv('DOCUMENT_SERVICE_URL', 'http://document-service:5003')
 
 @app.route('/health')
 def health_check():
@@ -38,6 +39,58 @@ def calculate():
        logger.error(f"Calculator error: {str(e)}")
        return jsonify({'status': 'error', 'message': str(e)}), 500
 
+@app.route('/document')
+def document():
+    return render_template('document.html')
+
+@app.route('/upload', methods=['POST'])
+def upload_file():
+    try:
+        files = {'file': request.files['file']}
+        response = requests.post(
+            f'{DOCUMENT_SERVICE_URL}/upload',
+            files=files
+        )
+        return response.json(), response.status_code
+    except Exception as e:
+        logger.error(f"Document upload error: {str(e)}")
+        return jsonify({'status': 'error', 'message': str(e)}), 500
+
+@app.route('/list-drive-files')
+def list_drive_files():
+    try:
+        response = requests.get(
+            f'{DOCUMENT_SERVICE_URL}/list-drive-files',
+            json=session.get('credentials')
+        )
+        return response.json(), response.status_code
+    except Exception as e:
+        logger.error(f"List drive files error: {str(e)}")
+        return jsonify({'status': 'error', 'message': str(e)}), 500
+
+@app.route('/google-auth')
+def google_auth():
+    try:
+        response = requests.get(f'{DOCUMENT_SERVICE_URL}/google-auth')
+        return response.json()
+    except Exception as e:
+        logger.error(f"Google auth error: {str(e)}")
+        return jsonify({'status': 'error', 'message': str(e)}), 500
+
+@app.route('/oauth2callback')
+def oauth2callback():
+    try:
+        response = requests.get(
+            f'{DOCUMENT_SERVICE_URL}/oauth2callback',
+            params=request.args
+        )
+        data = response.json()
+        if data.get('status') == 'success':
+            session['credentials'] = data.get('credentials')
+        return redirect('/document')
+    except Exception as e:
+        logger.error(f"OAuth callback error: {str(e)}")
+        return str(e), 500
 
 if __name__ == '__main__':
    app.run(host='0.0.0.0', port=5001)
