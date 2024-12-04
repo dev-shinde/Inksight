@@ -7,7 +7,7 @@ from googleapiclient.discovery import build
 
 def process_document(file):
     try:
-        # Initialize Anthropic client
+        # Initialize Anthropic client without proxies
         anthropic = Anthropic(api_key=os.getenv('ANTHROPIC_API_KEY'))
 
         # Convert PDF to image
@@ -18,6 +18,7 @@ def process_document(file):
         first_page.save(img_byte_arr, format='PNG')
         img_base64 = base64.b64encode(img_byte_arr.getvalue()).decode('utf-8')
         
+        # Create message with Claude
         message = anthropic.messages.create(
             model="claude-3-sonnet-20240229",
             max_tokens=1024,

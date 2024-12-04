@@ -40,15 +40,13 @@ def calculate():
 def document():
     return render_template('document.html')
 
-@app.route('/document/upload', methods=['POST'])
-def upload_document():
+@app.route('/upload', methods=['POST'])
+def upload_file():
     try:
+        # Forward the file to document service
         files = {'file': request.files['file']}
-        response = requests.post(
-            f'{DOCUMENT_SERVICE_URL}/upload',
-            files=files
-        )
-        return response.json()
+        response = requests.post(f'{DOCUMENT_SERVICE_URL}/upload', files=files)
+        return jsonify(response.json())
     except Exception as e:
         return jsonify({
             'status': 'error',

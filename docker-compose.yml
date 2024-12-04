@@ -1,20 +1,4 @@
 services:
-  api-gateway:
-    build: 
-      context: ./api-gateway
-    ports:
-      - "5000:5000"
-    environment:
-      - FRONTEND_SERVICE_URL=http://frontend-service:5001
-      - CALCULATOR_SERVICE_URL=http://calculator-service:5002
-      - DOCUMENT_SERVICE_URL=http://document-service:5003
-    depends_on:
-      - frontend-service
-      - calculator-service
-      - document-service
-    networks:
-      - inksight-network
-
   frontend-service:
     build: 
       context: ./frontend-service
@@ -27,8 +11,8 @@ services:
     volumes:
       - ./frontend-service/static:/app/static
       - ./frontend-service/templates:/app/templates
-    networks:
-      - inksight-network
+    ports:
+      - "5001:5001"
 
   calculator-service:
     build: 
@@ -36,21 +20,19 @@ services:
     environment:
       - FLASK_APP=app.py
       - GEMINI_API_KEY=${GEMINI_API_KEY}
-    networks:
-      - inksight-network
+    ports:
+      - "5002:5002"
 
   document-service:
     build: 
       context: ./document-service
+    env_file:
+      - ./.env    # This points to the .env file in the root directory
     environment:
-      - FLASK_APP=app.py
       - ANTHROPIC_API_KEY=${ANTHROPIC_API_KEY}
-      - SECRET_KEY=${SECRET_KEY}
-    volumes:
-      - ./document-service/credentials.json:/app/credentials.json:ro
-    networks:
-      - inksight-network
+    ports:
+      - "5003:5003"
 
 networks:
-  inksight-network:
+  default:
     driver: bridge
