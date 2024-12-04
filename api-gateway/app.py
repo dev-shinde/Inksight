@@ -14,7 +14,6 @@ app = Flask(__name__)
 SERVICES = {
     'frontend': os.getenv('FRONTEND_SERVICE_URL', 'http://frontend-service:5001'),
     'calculator': os.getenv('CALCULATOR_SERVICE_URL', 'http://calculator-service:5002'),
-    'document': os.getenv('DOCUMENT_SERVICE_URL', 'http://document-service:5003')
 }
 
 @app.route('/health', methods=['GET'])
@@ -34,23 +33,53 @@ def health_check():
     })
 
 @app.route('/', defaults={'path': ''})
-@app.route('/<path:path>')
-def catch_all(path):
-    """Handle all frontend routes"""
+@app.route('/<path:path>', methods=['GET', 'POST'])
+def proxy(path):
     try:
-        frontend_url = f"{SERVICES['frontend']}/{path}"
-        response = requests.request(
-            method=request.method,
-            url=frontend_url,
-            headers={key: value for key, value in request.headers if key != 'Host'},
-            params=request.args,
-            cookies=request.cookies,
-            allow_redirects=False
-        )
-        return response.content, response.status_code, dict(response.headers)
-    except Exception as e:
-        logger.error(f"Frontend routing error: {str(e)}")
-        return jsonify({"error": str(e)}), 500
+        # Default to frontend service for base routes
+        service = 'frontend'
+        service_url = SERVICES['frontend']
+
+        # Route API calls to specific services
+        if path.startswith('api/'):
+            service_parts = path.split('/')
+            service = service_parts[1]
+            path = '/'.join(service_parts[2:])
+            if service not in SERVICES:
+                return jsonify({"error": "Service not found"}), 404
+            service_url = SERVICES[service]
+
+        target_url = f"{service_url}/{path}"
+        logger.info(f"Forwarding request to: {target_url}")
+
+        kwargs = {
+            'method': request.method,
+            'url': target_url,
+            'headers': {key: value for key, value in request.headers if key != 'Host'},
+            'params': request.args,
+            'allow_redirects': False,
+            'timeout': 30
+        }
+
+        # Handle different types of request data
+        if request.is_json:
+            kwargs['json'] = request.get_json()
+        elif request.form:
+            kwargs['data'] = request.form
+        if request.files:
+            kwargs['files'] = request.files
+
+        response = requests.request(**kwargs)
+        return response.content, response.status_code, response.headers.items()
+
+    except requests.RequestException as e:
+        logger.error(f"Request failed: {str(e)}")
+        return jsonify({
+            "status": "error",
+            "message": "Service temporarily unavailable"
+        }), 503
+
+
 
 @app.route('/api/<service>/<path:path>', methods=['GET', 'POST'])
 def service_gateway(service, path):
