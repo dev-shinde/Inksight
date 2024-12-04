@@ -14,7 +14,7 @@ app = Flask(__name__)
 SERVICES = {
     'frontend': os.getenv('FRONTEND_SERVICE_URL', 'http://frontend-service:5001'),
     'calculator': os.getenv('CALCULATOR_SERVICE_URL', 'http://calculator-service:5002'),
-        'document': os.getenv('DOCUMENT_SERVICE_URL', 'http://document-service:5003'),
+    'document': os.getenv('DOCUMENT_SERVICE_URL', 'http://document-service:5003'),
 
 }
 
@@ -85,48 +85,33 @@ def proxy(path):
 
 @app.route('/api/<service>/<path:path>', methods=['GET', 'POST'])
 def service_gateway(service, path):
-    """Handle service-specific routes"""
     if service not in SERVICES:
         return jsonify({"error": "Service not found"}), 404
     
     try:
         service_url = f"{SERVICES[service]}/{path}"
-        logger.info(f"Forwarding request to: {service_url}")
-
-        # Prepare the request
-        kwargs = {
-            'method': request.method,
-            'url': service_url,
-            'headers': {key: value for key, value in request.headers if key != 'Host'},
-            'params': request.args,
-            'cookies': request.cookies,
-            'timeout': 30
-        }
-
-        # Handle different types of request data
-        if request.is_json:
-            kwargs['json'] = request.get_json()
-        elif request.form:
-            kwargs['data'] = request.form
-        elif request.files:
-            kwargs['files'] = request.files
-
-        # Make the request
-        response = requests.request(**kwargs)
         
+        # Forward the request to the appropriate service
+        response = requests.request(
+            method=request.method,
+            url=service_url,
+            params=request.args,
+            headers={key: value for key, value in request.headers if key != 'Host'},
+            cookies=request.cookies,
+            data=request.get_data() if request.method == 'POST' else None,
+            allow_redirects=False
+        )
+        
+        # Handle redirects
+        if response.status_code in [301, 302, 303, 307, 308]:
+            return redirect(response.headers['Location'])
+            
         return response.content, response.status_code, response.headers.items()
     except requests.RequestException as e:
-        logger.error(f"Service request failed: {str(e)}")
+        print(f"Gateway error: {str(e)}")  # For debugging
         return jsonify({
-            "status": "error",
-            "message": f"Service request failed: {str(e)}"
+            "error": f"Service request failed: {str(e)}"
         }), 503
-    except Exception as e:
-        logger.error(f"Gateway error: {str(e)}")
-        return jsonify({
-            "status": "error",
-            "message": str(e)
-        }), 500
 
 @app.route('/static/<path:filename>')
 def serve_static(filename):

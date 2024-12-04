@@ -7,7 +7,7 @@ from google.oauth2.credentials import Credentials
 from google_auth_oauthlib.flow import Flow
 from googleapiclient.discovery import build
 from google.auth.transport.requests import Request
-
+os.environ['OAUTHLIB_INSECURE_TRANSPORT'] = '1'
 load_dotenv()
 app = Flask(__name__)
 
@@ -60,7 +60,13 @@ def oauth2callback():
             scopes=['https://www.googleapis.com/auth/drive.readonly'],
             redirect_uri='http://localhost:5000/api/document/oauth2callback'
         )
-        flow.fetch_token(authorization_response=request.url)
+        
+        # Don't forget to set OAUTHLIB_INSECURE_TRANSPORT=1 for development
+        os.environ['OAUTHLIB_INSECURE_TRANSPORT'] = '1'
+        
+        authorization_response = request.url.replace('http://', 'https://')  # Required for OAuth
+        flow.fetch_token(authorization_response=authorization_response)
+        
         credentials = {
             'token': flow.credentials.token,
             'refresh_token': flow.credentials.refresh_token,

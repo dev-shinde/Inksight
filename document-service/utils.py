@@ -1,4 +1,3 @@
-# document-service/utils.py
 from anthropic import Anthropic
 import os
 from pdf2image import convert_from_bytes
