@@ -38,11 +38,10 @@ def health_check():
 @app.route('/<path:path>', methods=['GET', 'POST'])
 def proxy(path):
     try:
-        # Default to frontend service for base routes
+        # Default to frontend service
         service = 'frontend'
         service_url = SERVICES['frontend']
 
-        # Route API calls to specific services
         if path.startswith('api/'):
             service_parts = path.split('/')
             service = service_parts[1]
@@ -52,26 +51,21 @@ def proxy(path):
             service_url = SERVICES[service]
 
         target_url = f"{service_url}/{path}"
-        logger.info(f"Forwarding request to: {target_url}")
+        
+        response = requests.request(
+            method=request.method,
+            url=target_url,
+            params=request.args,
+            headers={key: value for key, value in request.headers if key != 'Host'},
+            cookies=request.cookies,
+            data=request.get_data() if request.method == 'POST' else None,
+            allow_redirects=False
+        )
 
-        kwargs = {
-            'method': request.method,
-            'url': target_url,
-            'headers': {key: value for key, value in request.headers if key != 'Host'},
-            'params': request.args,
-            'allow_redirects': False,
-            'timeout': 30
-        }
+        # Handle redirects
+        if response.status_code in [301, 302, 303, 307, 308]:
+            return redirect(response.headers['Location'])
 
-        # Handle different types of request data
-        if request.is_json:
-            kwargs['json'] = request.get_json()
-        elif request.form:
-            kwargs['data'] = request.form
-        if request.files:
-            kwargs['files'] = request.files
-
-        response = requests.request(**kwargs)
         return response.content, response.status_code, response.headers.items()
 
     except requests.RequestException as e:
@@ -82,7 +76,6 @@ def proxy(path):
         }), 503
 
 
-
 @app.route('/api/<service>/<path:path>', methods=['GET', 'POST'])
 def service_gateway(service, path):
     if service not in SERVICES:
@@ -91,27 +84,25 @@ def service_gateway(service, path):
     try:
         service_url = f"{SERVICES[service]}/{path}"
         
-        # Forward the request to the appropriate service
-        response = requests.request(
-            method=request.method,
-            url=service_url,
-            params=request.args,
-            headers={key: value for key, value in request.headers if key != 'Host'},
-            cookies=request.cookies,
-            data=request.get_data() if request.method == 'POST' else None,
-            allow_redirects=False
-        )
+        # Forward the complete URL for OAuth callbacks
+        if path == 'oauth2callback':
+            params = dict(request.args)
+            params['callback_url'] = request.url
+            response = requests.get(service_url, params=params)
+        else:
+            response = requests.request(
+                method=request.method,
+                url=service_url,
+                params=request.args,
+                headers={key: value for key, value in request.headers if key != 'Host'},
+                cookies=request.cookies,
+                data=request.get_data() if request.method == 'POST' else None
+            )
         
-        # Handle redirects
-        if response.status_code in [301, 302, 303, 307, 308]:
-            return redirect(response.headers['Location'])
-            
         return response.content, response.status_code, response.headers.items()
     except requests.RequestException as e:
-        print(f"Gateway error: {str(e)}")  # For debugging
-        return jsonify({
-            "error": f"Service request failed: {str(e)}"
-        }), 503
+        print(f"Gateway error: {str(e)}")
+        return jsonify({"error": f"Service request failed: {str(e)}"}), 503
 
 @app.route('/static/<path:filename>')
 def serve_static(filename):

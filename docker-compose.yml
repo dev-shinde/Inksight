@@ -24,10 +24,11 @@ services:
       - SECRET_KEY=your-secret-key-here
       - CALCULATOR_SERVICE_URL=http://calculator-service:5002
       - DOCUMENT_SERVICE_URL=http://document-service:5003
-      - OAUTHLIB_INSECURE_TRANSPORT=1
     volumes:
       - ./frontend-service/static:/app/static
       - ./frontend-service/templates:/app/templates
+    depends_on:
+      - document-service
     networks:
       - inksight-network
 
@@ -45,6 +46,7 @@ services:
       context: ./document-service
     environment:
       - FLASK_APP=app.py
+      - FLASK_ENV=development
       - ANTHROPIC_API_KEY=${ANTHROPIC_API_KEY}
       - OAUTHLIB_INSECURE_TRANSPORT=1
     volumes:

@@ -22,14 +22,14 @@
             </div>
             
             <div class="upload-option">
-                <button onclick="handleDriveClick()" class="drive-btn">
+                <!-- <button onclick="handleDriveClick()" class="drive-btn">
                     <svg class="drive-icon" viewBox="0 0 24 24">
                         <path d="M4.5 14.5L2 18.5L4.5 22.5H19.5L22 18.5L19.5 14.5H4.5Z"/>
                         <path d="M14.5 2.5L12 6.5L19.5 14.5L22 10.5L14.5 2.5Z"/>
                         <path d="M2 10.5L4.5 14.5L12 6.5L9.5 2.5L2 10.5Z"/>
                     </svg>
                     Google Drive
-                </button>
+                </button> -->
             </div>
         </div>
         
@@ -59,20 +59,21 @@ function handleLocalFileClick() {
 async function handleDriveClick() {
     const driveFileList = document.getElementById('driveFileList');
     
-    // If already showing files, just hide them
-    if (!driveFileList.classList.contains('hidden')) {
-        driveFileList.classList.add('hidden');
-        return;
-    }
-
     try {
-        const response = await fetch('/list-drive-files');
+        const response = await fetch('/list-drive-files', {
+            method: 'GET',
+            headers: {
+                'Content-Type': 'application/json'
+            }
+        });
+        
         const data = await response.json();
         
         if (data.error === 'Not authenticated') {
-            // Not authenticated, redirect to auth
-            connectGoogleDrive();
-        } else if (data.files) {
+            // Store current page URL before redirecting
+            sessionStorage.setItem('returnTo', window.location.href);
+            await connectGoogleDrive();
+        } else if (data.status === 'success' && data.files) {
             // Show files
             driveFileList.innerHTML = data.files.map(file => `
                 <div class="drive-file" onclick="selectDriveFile('${file.id}')">
@@ -86,6 +87,47 @@ async function handleDriveClick() {
         }
     } catch (error) {
         console.error('Error:', error);
+        alert('Failed to list files. Please try again.');
+    }
+}
+
+// Modify connectGoogleDrive to handle errors better
+async function connectGoogleDrive() {
+    try {
+        const response = await fetch('/google-auth');
+        const data = await response.json();
+        if (data.auth_url) {
+            window.location.href = data.auth_url;
+        } else {
+            throw new Error('No authentication URL received');
+        }
+    } catch (error) {
+        console.error('Error:', error);
+        alert('Failed to connect to Google Drive. Please try again.');
+    }
+}
+
+// Add this to your existing JavaScript
+window.onload = function() {
+    // Check if we were redirected with an error
+    const urlParams = new URLSearchParams(window.location.search);
+    const error = urlParams.get('error');
+    
+    if (error) {
+        console.error('Authentication error:', error);
+        alert('Failed to authenticate with Google Drive. Please try again.');
+    } else {
+        // Try to list files if we have credentials
+        handleDriveClick();
+    }
+}
+
+// Add this function to check credentials on page load
+window.onload = async function() {
+    // If we just returned from OAuth flow, try to list files
+    if (sessionStorage.getItem('returnTo')) {
+        sessionStorage.removeItem('returnTo');
+        handleDriveClick();
     }
 }
 
