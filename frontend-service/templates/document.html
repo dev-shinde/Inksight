@@ -8,150 +8,171 @@
     <h1 class="page-title">Document Summarizer</h1>
     
     <div class="upload-section">
-        <form id="uploadForm" class="upload-form">
-            <div class="file-input-container">
-                <input type="file" id="fileInput" accept=".pdf" class="hidden">
-                <label for="fileInput" class="upload-label">
-                    <svg class="upload-icon" viewBox="0 0 24 24" width="24" height="24">
-                        <path fill="currentColor" d="M19 13h-6v6h-2v-6H5v-2h6V5h2v6h6v2z"/>
-                    </svg>
-                    Select PDF File
-                </label>
+        <div class="upload-options">
+            <div class="upload-option">
+                <form id="uploadForm">
+                    <label for="fileInput" class="upload-label" onclick="handleLocalFileClick()">
+                        <svg class="upload-icon" viewBox="0 0 24 24">
+                            <path d="M19 13h-6v6h-2v-6H5v-2h6V5h2v6h6v2z"/>
+                        </svg>
+                        Local File
+                    </label>
+                    <input type="file" id="fileInput" accept=".pdf,.txt" class="hidden">
+                </form>
             </div>
-            <button type="button" onclick="uploadFile()" class="submit-button">
-                Process Document
-            </button>
-        </form>
-
-        <div id="loading" class="loading-spinner hidden">
+            
+            <div class="upload-option">
+                <button onclick="handleDriveClick()" class="drive-btn">
+                    <svg class="drive-icon" viewBox="0 0 24 24">
+                        <path d="M4.5 14.5L2 18.5L4.5 22.5H19.5L22 18.5L19.5 14.5H4.5Z"/>
+                        <path d="M14.5 2.5L12 6.5L19.5 14.5L22 10.5L14.5 2.5Z"/>
+                        <path d="M2 10.5L4.5 14.5L12 6.5L9.5 2.5L2 10.5Z"/>
+                    </svg>
+                    Google Drive
+                </button>
+            </div>
+        </div>
+        
+        <div id="driveFileList" class="drive-files hidden">
+            <!-- Drive files will be listed here -->
+        </div>
+        
+        <div id="loading" class="loading-spinner">
             <div class="spinner"></div>
             <span>Processing document...</span>
         </div>
 
-        <div id="result" class="result-panel"></div>
+        <div id="summary" class="summary-panel"></div>
     </div>
 </div>
 
-<style>
-.document-page {
-    max-width: 800px;
-    margin: 0 auto;
-    padding: 20px;
-}
-
-.upload-form {
-    display: flex;
-    flex-direction: column;
-    gap: 20px;
-    align-items: center;
-}
-
-.file-input-container {
-    width: 100%;
-    text-align: center;
-}
-
-.upload-label {
-    display: inline-flex;
-    align-items: center;
-    padding: 12px 24px;
-    background: #4CAF50;
-    color: white;
-    border-radius: 4px;
-    cursor: pointer;
-    transition: background 0.3s;
-}
-
-.upload-label:hover {
-    background: #45a049;
-}
-
-.upload-icon {
-    margin-right: 8px;
-}
-
-.hidden {
-    display: none;
-}
-
-.submit-button {
-    padding: 12px 24px;
-    background: #2196F3;
-    color: white;
-    border: none;
-    border-radius: 4px;
-    cursor: pointer;
-    font-size: 16px;
-}
-
-.loading-spinner {
-    display: flex;
-    align-items: center;
-    justify-content: center;
-    margin: 20px 0;
-}
-
-.spinner {
-    width: 30px;
-    height: 30px;
-    border: 3px solid #f3f3f3;
-    border-top: 3px solid #4CAF50;
-    border-radius: 50%;
-    animation: spin 1s linear infinite;
-    margin-right: 10px;
-}
-
-@keyframes spin {
-    0% { transform: rotate(0deg); }
-    100% { transform: rotate(360deg); }
-}
-
-.result-panel {
-    margin-top: 20px;
-    padding: 20px;
-    background: #f5f5f5;
-    border-radius: 4px;
-}
-</style>
-
 <script>
-async function uploadFile() {
-    const fileInput = document.getElementById('fileInput');
-    const loading = document.getElementById('loading');
-    const resultDiv = document.getElementById('result');
+let selectedFile = null;
+
+// Handle local file click
+function handleLocalFileClick() {
+    // Hide drive files if shown
+    document.getElementById('driveFileList').classList.add('hidden');
+}
+
+// Handle drive button click
+async function handleDriveClick() {
+    const driveFileList = document.getElementById('driveFileList');
     
-    if (!fileInput.files.length) {
-        resultDiv.innerHTML = '<div class="error">Please select a file</div>';
+    // If already showing files, just hide them
+    if (!driveFileList.classList.contains('hidden')) {
+        driveFileList.classList.add('hidden');
         return;
     }
 
-    loading.classList.remove('hidden');
-    resultDiv.innerHTML = '';
+    try {
+        const response = await fetch('/list-drive-files');
+        const data = await response.json();
+        
+        if (data.error === 'Not authenticated') {
+            // Not authenticated, redirect to auth
+            connectGoogleDrive();
+        } else if (data.files) {
+            // Show files
+            driveFileList.innerHTML = data.files.map(file => `
+                <div class="drive-file" onclick="selectDriveFile('${file.id}')">
+                    <svg class="file-icon" viewBox="0 0 24 24">
+                        <path d="M14 2H6a2 2 0 0 0-2 2v16a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V8z"></path>
+                    </svg>
+                    ${file.name}
+                </div>
+            `).join('');
+            driveFileList.classList.remove('hidden');
+        }
+    } catch (error) {
+        console.error('Error:', error);
+    }
+}
 
-    const formData = new FormData();
-    formData.append('file', fileInput.files[0]);
+// Handle local file selection
+document.getElementById('fileInput').addEventListener('change', async (e) => {
+    if (e.target.files.length > 0) {
+        const file = e.target.files[0];
+        const loading = document.getElementById('loading');
+        const summaryDiv = document.getElementById('summary');
+        
+        try {
+            loading.style.display = 'flex';
+            summaryDiv.textContent = '';
+            
+            const formData = new FormData();
+            formData.append('file', file);
+            
+            const response = await fetch('/upload', {
+                method: 'POST',
+                body: formData
+            });
+            
+            const data = await response.json();
+            
+            if (data.status === 'success') {
+                summaryDiv.innerHTML = `
+                    <div class="summary-content">
+                        <h2>Summary</h2>
+                        <div class="summary-text">${data.summary.replace(/\n/g, '<br>')}</div>
+                    </div>`;
+            } else {
+                summaryDiv.innerHTML = `
+                    <div class="error-message">
+                        Error: ${data.message}
+                    </div>`;
+            }
+        } catch (error) {
+            summaryDiv.innerHTML = `
+                <div class="error-message">
+                    Error: ${error.message}
+                </div>`;
+        } finally {
+            loading.style.display = 'none';
+        }
+    }
+});
+
+async function connectGoogleDrive() {
+    try {
+        const response = await fetch('/google-auth');
+        const data = await response.json();
+        window.location.href = data.auth_url;
+    } catch (error) {
+        console.error('Error:', error);
+    }
+}
+
+async function selectDriveFile(fileId) {
+    const loading = document.getElementById('loading');
+    const summaryDiv = document.getElementById('summary');
     
     try {
-        const response = await fetch('/upload', {
-            method: 'POST',
-            body: formData
-        });
+        loading.style.display = 'flex';
+        summaryDiv.textContent = '';
         
+        const response = await fetch(`/get-drive-file/${fileId}`);
         const data = await response.json();
         
         if (data.status === 'success') {
-            resultDiv.innerHTML = `
-                <div class="success">
-                    <h3>Document Summary</h3>
+            summaryDiv.innerHTML = `
+                <div class="summary-content">
+                    <h2>Summary</h2>
                     <div class="summary-text">${data.summary.replace(/\n/g, '<br>')}</div>
                 </div>`;
         } else {
-            resultDiv.innerHTML = `<div class="error">Error: ${data.message}</div>`;
+            summaryDiv.innerHTML = `
+                <div class="error-message">
+                    Error: ${data.message}
+                </div>`;
         }
     } catch (error) {
-        resultDiv.innerHTML = `<div class="error">Error: ${error.message}</div>`;
+        summaryDiv.innerHTML = `
+            <div class="error-message">
+                Error: ${error.message}
+            </div>`;
     } finally {
-        loading.classList.add('hidden');
+        loading.style.display = 'none';
     }
 }
 </script>
