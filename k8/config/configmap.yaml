@@ -1,0 +1,9 @@
+apiVersion: v1
+kind: ConfigMap
+metadata:
+  name: inksight-config
+  namespace: inksight
+data:
+  CALCULATOR_SERVICE_URL: "http://calculator-service:5002"
+  DOCUMENT_SERVICE_URL: "http://document-service:5003"
+  FRONTEND_SERVICE_URL: "http://frontend-service:5001"
