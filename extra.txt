@@ -1,0 +1,25 @@
+assume in my .env i have 
+
+GEMINI_API_KEY=AIzaSyAZgZDtp6fSJ7ccb2I7SIa2E9R6AGJY730
+SECRET_KEY=123
+ANTHROPIC_API_KEY=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
+
+api keys
+
+-----------
+
+how to use this in 
+
+apiVersion: v1
+kind: Secret
+metadata:
+  name: inksight-secrets
+  namespace: inksight
+type: Opaque
+data:
+  GEMINI_API_KEY: 
+  ANTHROPIC_API_KEY: 
+  SECRET_KEY: 
+
+
+Token - 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
