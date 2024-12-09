@@ -46,25 +46,25 @@ pipeline {
             }
         }
 
-        stage('Setup Minikube') {
-            steps {
-                sh '''
-                    # Stop and delete existing cluster if any
-                    minikube stop || true
-                    minikube delete || true
+        // stage('Setup Minikube') {
+        //     steps {
+        //         sh '''
+        //             # Stop and delete existing cluster if any
+        //             minikube stop || true
+        //             minikube delete || true
                     
-                    # Start fresh cluster
-                    minikube start --driver=docker \
-                        --kubernetes-version=v1.31.0 \
-                        --cpus=4 \
-                        --memory=4096
+        //             # Start fresh cluster
+        //             minikube start --driver=docker \
+        //                 --kubernetes-version=v1.31.0 \
+        //                 --cpus=4 \
+        //                 --memory=4096
                     
-                    # Wait for cluster to be ready
-                    minikube status
-                    kubectl wait --for=condition=Ready node/minikube --timeout=300s
-                '''
-            }
-        }
+        //             # Wait for cluster to be ready
+        //             minikube status
+        //             kubectl wait --for=condition=Ready node/minikube --timeout=300s
+        //         '''
+        //     }
+        // }
 
         stage('Setup Kubernetes Config') {
             steps {
@@ -72,18 +72,19 @@ pipeline {
                     # Create .kube directory
                     mkdir -p /var/lib/jenkins/.kube
                     
-                    # Get minikube config
-                    cp ~/.kube/config /var/lib/jenkins/.kube/config
+                    # Get current user's minikube config
+                    cp /home/dev/.kube/config /var/lib/jenkins/.kube/config
                     
                     # Set permissions
+                    chown jenkins:jenkins /var/lib/jenkins/.kube/config
                     chmod 600 /var/lib/jenkins/.kube/config
                     
-                    # Test connection
-                    KUBECONFIG=/var/lib/jenkins/.kube/config kubectl get nodes
+                    # Verify config
+                    kubectl --kubeconfig=/var/lib/jenkins/.kube/config get nodes
                 '''
             }
         }
-        
+
         stage('Deploy with Ansible') {
             steps {
                 script {
