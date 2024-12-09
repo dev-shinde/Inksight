@@ -65,6 +65,24 @@ pipeline {
                 '''
             }
         }
+
+        stage('Setup Kubernetes Config') {
+            steps {
+                sh '''
+                    # Create .kube directory
+                    mkdir -p /var/lib/jenkins/.kube
+                    
+                    # Get minikube config
+                    minikube kubectl config view --flatten > /var/lib/jenkins/.kube/config
+                    
+                    # Set permissions
+                    chmod 600 /var/lib/jenkins/.kube/config
+                    
+                    # Test connection
+                    KUBECONFIG=/var/lib/jenkins/.kube/config kubectl get nodes
+                '''
+            }
+        }
         
         stage('Deploy with Ansible') {
             steps {
