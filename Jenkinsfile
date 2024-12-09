@@ -73,7 +73,7 @@ pipeline {
                     mkdir -p /var/lib/jenkins/.kube
                     
                     # Get minikube config
-                    minikube kubectl config view --flatten > /var/lib/jenkins/.kube/config
+                    cp ~/.kube/config /var/lib/jenkins/.kube/config
                     
                     # Set permissions
                     chmod 600 /var/lib/jenkins/.kube/config
