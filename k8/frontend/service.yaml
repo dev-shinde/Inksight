@@ -1,12 +1,14 @@
+# Update frontend service (k8/frontend/service.yaml)
 apiVersion: v1
 kind: Service
 metadata:
   name: frontend-service
   namespace: inksight
 spec:
+  type: NodePort
   selector:
     app: frontend
   ports:
-  - port: 5001
-    targetPort: 5001
-  type: ClusterIP
+    - port: 5001
+      targetPort: 5001
+      nodePort: 30001
