@@ -70,17 +70,17 @@ pipeline {
             steps {
                 sh '''
                     # Create .kube directory
-                    mkdir -p /var/lib/jenkins/.kube
+                    sudo mkdir -p /var/lib/jenkins/.kube
                     
-                    # Get current user's minikube config
-                    cp /home/dev/.kube/config /var/lib/jenkins/.kube/config
+                    # Copy config with sudo
+                    sudo cp /home/dev/.kube/config /var/lib/jenkins/.kube/config
                     
-                    # Set permissions
-                    chown jenkins:jenkins /var/lib/jenkins/.kube/config
-                    chmod 600 /var/lib/jenkins/.kube/config
+                    # Set proper ownership and permissions
+                    sudo chown jenkins:jenkins /var/lib/jenkins/.kube/config
+                    sudo chmod 600 /var/lib/jenkins/.kube/config
                     
-                    # Verify config
-                    kubectl --kubeconfig=/var/lib/jenkins/.kube/config get nodes
+                    # Test connection
+                    KUBECONFIG=/var/lib/jenkins/.kube/config kubectl get nodes
                 '''
             }
         }
@@ -104,6 +104,12 @@ pipeline {
     }
     
     post {
+
+        always {
+            sh '''
+                sudo rm -f /var/lib/jenkins/.kube/config || true
+            '''
+        }
         success {
             echo 'Successfully deployed InkSight!'
         }
