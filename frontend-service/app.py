@@ -3,7 +3,6 @@ import os
 from dotenv import load_dotenv
 import requests
 import logging
-from werkzeug.middleware.proxy_fix import ProxyFix
 
 load_dotenv()
 
@@ -12,30 +11,23 @@ logging.basicConfig(level=logging.INFO)
 logger = logging.getLogger(__name__)
 
 app = Flask(__name__,
-           static_url_path='/static',
+           static_url_path='',  # Changed this line
            static_folder='static',
            template_folder='templates')
-
-# Add proxy support for proper URL handling
-app.wsgi_app = ProxyFix(app.wsgi_app, x_proto=1, x_host=1)
            
 app.secret_key = os.getenv('SECRET_KEY', 'your-secret-key-here')
 
 CALCULATOR_SERVICE_URL = os.getenv('CALCULATOR_SERVICE_URL', 'http://calculator-service:5002')
 DOCUMENT_SERVICE_URL = os.getenv('DOCUMENT_SERVICE_URL', 'http://document-service:5003')
 
-# Enhanced static file handling
+# Explicit static file handling
 @app.route('/static/<path:filename>')
-def serve_static(filename):
-    """Serve static files with proper mime types"""
+def static_files(filename):
+    logger.info(f"Serving static file: {filename}")
     try:
-        return send_from_directory(
-            app.static_folder, 
-            filename,
-            mimetype='text/css' if filename.endswith('.css') else None
-        )
+        return send_from_directory(app.static_folder, filename)
     except Exception as e:
-        logger.error(f"Static file error: {str(e)}")
+        logger.error(f"Error serving static file {filename}: {str(e)}")
         return str(e), 404
 
 @app.route('/health')
