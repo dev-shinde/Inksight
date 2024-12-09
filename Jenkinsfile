@@ -3,6 +3,7 @@ pipeline {
     
     environment {
         VAULT_PASS_FILE = credentials('vault-pass')
+        KUBECONFIG = "/tmp/kube_config_${BUILD_NUMBER}"
     }
     
     stages {
@@ -46,44 +47,40 @@ pipeline {
             }
         }
 
-        // stage('Setup Minikube') {
-        //     steps {
-        //         sh '''
-        //             # Stop and delete existing cluster if any
-        //             minikube stop || true
-        //             minikube delete || true
+        stage('Setup Minikube') {
+            steps {
+                sh '''
+                    # Stop and delete existing cluster if any
+                    minikube stop || true
+                    minikube delete || true
                     
-        //             # Start fresh cluster
-        //             minikube start --driver=docker \
-        //                 --kubernetes-version=v1.31.0 \
-        //                 --cpus=4 \
-        //                 --memory=4096
+                    # Start fresh cluster
+                    minikube start --driver=docker \
+                        --kubernetes-version=v1.31.0 \
+                        --cpus=4 \
+                        --memory=4096
                     
-        //             # Wait for cluster to be ready
-        //             minikube status
-        //             kubectl wait --for=condition=Ready node/minikube --timeout=300s
-        //         '''
-        //     }
-        // }
+                    # Wait for cluster to be ready
+                    minikube status
+                    kubectl wait --for=condition=Ready node/minikube --timeout=300s
+                '''
+            }
+        }
 
-        // stage('Setup Kubernetes Config') {
-        //     steps {
-        //         sh '''
-        //             # Create .kube directory
-        //             sudo mkdir -p /var/lib/jenkins/.kube
+         stage('Setup Kubernetes') {
+            steps {
+                sh '''
+                    # Start minikube if not running
+                    minikube status || minikube start --driver=docker
                     
-        //             # Copy config with sudo
-        //             sudo cp /home/dev/.kube/config /var/lib/jenkins/.kube/config
+                    # Export minikube's kubectl config
+                    minikube kubectl config view > ${KUBECONFIG}
                     
-        //             # Set proper ownership and permissions
-        //             sudo chown jenkins:jenkins /var/lib/jenkins/.kube/config
-        //             sudo chmod 600 /var/lib/jenkins/.kube/config
-                    
-        //             # Test connection
-        //             KUBECONFIG=/var/lib/jenkins/.kube/config kubectl get nodes
-        //         '''
-        //     }
-        // }
+                    # Test connection
+                    kubectl --kubeconfig=${KUBECONFIG} get nodes
+                '''
+            }
+        }
 
         stage('Deploy with Ansible') {
             steps {
@@ -105,7 +102,12 @@ pipeline {
     
     post {
 
-        
+         always {
+            sh """
+                # Cleanup
+                rm -f ${KUBECONFIG} || true
+            """
+        }
         success {
             echo 'Successfully deployed InkSight!'
         }

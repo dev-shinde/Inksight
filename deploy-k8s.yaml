@@ -5,8 +5,19 @@
     - vars/secrets.yml
   tasks:
 
+  # Add test task at beginning
+    - name: Test kubectl connection
+      shell: "kubectl get nodes"
+      register: kubectl_test
+      
+    - name: Show kubectl status
+      debug:
+        var: kubectl_test.stdout_lines
+
     - name: Create namespace
       kubernetes.core.k8s:
+        verify_ssl: false
+        kubeconfig: "{{ lookup('env', 'KUBECONFIG') }}"
         state: present
         definition:
           apiVersion: v1
