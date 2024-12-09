@@ -1,6 +1,8 @@
 ---
 - name: Deploy InkSight to Kubernetes
   hosts: all
+  vars_files:
+    - vars/secrets.yml
   tasks:
 
     - name: Create namespace
