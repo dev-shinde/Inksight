@@ -4,7 +4,9 @@ pipeline {
     stages {
         stage('Clone Repository') {
             steps {
-                git 'https://github.com/dev-shinde/Inksight.git'
+                git credentialsId: 'gitconnect',
+                    url: 'https://github.com/dev-shinde/Inksight.git',
+                    branch: 'main'
             }
         }
         
