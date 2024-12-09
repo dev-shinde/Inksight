@@ -7,6 +7,8 @@
 
     - name: Create namespace
       kubernetes.core.k8s:
+        verify_ssl: false  # Add this line
+        kubeconfig: "/var/lib/jenkins/.kube/config"
         state: present
         definition:
           apiVersion: v1
