@@ -5,8 +5,10 @@ RUN apt-get update && apt-get install -y curl
 COPY requirements.txt .
 RUN pip install --no-cache-dir -r requirements.txt
 
+# Copy all application files including static and templates
 COPY . .
-RUN mkdir -p static/css static/js templates
+COPY static/ /app/static/
+COPY templates/ /app/templates/
 
 HEALTHCHECK --interval=30s --timeout=10s --start-period=5s --retries=3 \
     CMD curl -f http://localhost:5001/health || exit 1

@@ -1,4 +1,4 @@
-from flask import Flask, render_template, jsonify, request, session, redirect
+from flask import Flask, render_template, jsonify, request, session, redirect,send_from_directory
 import os
 from dotenv import load_dotenv
 import requests
@@ -10,11 +10,19 @@ load_dotenv()
 logging.basicConfig(level=logging.INFO)
 logger = logging.getLogger(__name__)
 
-app = Flask(__name__)
+app = Flask(__name__,
+           static_url_path='/static',
+           static_folder='static',
+           template_folder='templates')
+           
 app.secret_key = os.getenv('SECRET_KEY', 'your-secret-key-here')
 
 CALCULATOR_SERVICE_URL = os.getenv('CALCULATOR_SERVICE_URL', 'http://calculator-service:5002')
 DOCUMENT_SERVICE_URL = os.getenv('DOCUMENT_SERVICE_URL', 'http://document-service:5003')
+
+@app.route('/static/<path:path>')
+def send_static(path):
+    return send_from_directory('static', path)
 
 @app.route('/health')
 def health_check():
