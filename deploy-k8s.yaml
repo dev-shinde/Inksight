@@ -1,0 +1,103 @@
+---
+- name: Deploy InkSight to Kubernetes
+  hosts: all
+  tasks:
+    - name: Install required Python packages
+      pip:
+        name:
+          - kubernetes
+          - openshift
+          - PyYAML
+        state: present
+
+    - name: Create namespace
+      kubernetes.core.k8s:
+        state: present
+        definition:
+          apiVersion: v1
+          kind: Namespace
+          metadata:
+            name: inksight
+
+    - name: Deploy Secrets
+      kubernetes.core.k8s:
+        state: present
+        definition: "{{ lookup('file', './k8/config/secrets.yaml') | from_yaml }}"
+
+    - name: Deploy ConfigMap
+      kubernetes.core.k8s:
+        state: present
+        definition: "{{ lookup('file', './k8/config/configmap.yaml') | from_yaml }}"
+
+    - name: Deploy API Gateway
+      kubernetes.core.k8s:
+        state: present
+        definition: "{{ lookup('file', './k8/api-gateway/deployment.yaml') | from_yaml }}"
+
+    - name: Deploy API Gateway Service
+      kubernetes.core.k8s:
+        state: present
+        definition: "{{ lookup('file', './k8/api-gateway/service.yaml') | from_yaml }}"
+
+    - name: Deploy API Gateway HPA
+      kubernetes.core.k8s:
+        state: present
+        definition: "{{ lookup('file', './k8/api-gateway/hpa.yaml') | from_yaml }}"
+
+    - name: Deploy Calculator Service
+      kubernetes.core.k8s:
+        state: present
+        definition: "{{ lookup('file', './k8/calculator/deployment.yaml') | from_yaml }}"
+
+    - name: Deploy Calculator Service Service
+      kubernetes.core.k8s:
+        state: present
+        definition: "{{ lookup('file', './k8/calculator/service.yaml') | from_yaml }}"
+
+    - name: Deploy Calculator HPA
+      kubernetes.core.k8s:
+        state: present
+        definition: "{{ lookup('file', './k8/calculator/hpa.yaml') | from_yaml }}"
+
+    - name: Deploy Document Service
+      kubernetes.core.k8s:
+        state: present
+        definition: "{{ lookup('file', './k8/document/deployment.yaml') | from_yaml }}"
+
+    - name: Deploy Document Service Service
+      kubernetes.core.k8s:
+        state: present
+        definition: "{{ lookup('file', './k8/document/service.yaml') | from_yaml }}"
+
+    - name: Deploy Document HPA
+      kubernetes.core.k8s:
+        state: present
+        definition: "{{ lookup('file', './k8/document/hpa.yaml') | from_yaml }}"
+
+    - name: Deploy Frontend
+      kubernetes.core.k8s:
+        state: present
+        definition: "{{ lookup('file', './k8/frontend/deployment.yaml') | from_yaml }}"
+
+    - name: Deploy Frontend Service
+      kubernetes.core.k8s:
+        state: present
+        definition: "{{ lookup('file', './k8/frontend/service.yaml') | from_yaml }}"
+
+    - name: Deploy Frontend HPA
+      kubernetes.core.k8s:
+        state: present
+        definition: "{{ lookup('file', './k8/frontend/hpa.yaml') | from_yaml }}"
+
+    - name: Deploy Ingress
+      kubernetes.core.k8s:
+        state: present
+        definition: "{{ lookup('file', './k8/ingress/ingress.yaml') | from_yaml }}"
+
+    - name: Verify Deployments
+      shell: kubectl get all -n inksight
+      register: deployment_status
+
+    - name: Show Deployment Status
+      debug:
+        var: deployment_status.stdout_lines

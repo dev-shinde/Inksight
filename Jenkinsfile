@@ -42,20 +42,9 @@ pipeline {
             }
         }
         
-        stage('Deploy to Kubernetes') {
+        stage('Deploy using Ansible') {
             steps {
-                withCredentials([file(credentialsId: 'kubernetes_config', variable: 'KUBECONFIG')]) {
-                    sh """
-                        kubectl create namespace inksight --dry-run=client -o yaml | kubectl apply -f -
-                        
-                        kubectl apply -f k8/config/
-                        kubectl apply -f k8/api-gateway/
-                        kubectl apply -f k8/calculator/
-                        kubectl apply -f k8/document/
-                        kubectl apply -f k8/frontend/
-                        kubectl apply -f k8/ingress/
-                    """
-                }
+                sh 'ansible-playbook -i inventory.yaml deploy-k8s.yaml'
             }
         }
     }
