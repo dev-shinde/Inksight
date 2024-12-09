@@ -1,6 +1,10 @@
 pipeline {
     agent any
     
+    environment {
+        VAULT_PASS_FILE = credentials('vault-pass')
+    }
+    
     stages {
         stage('Clone Repository') {
             steps {
@@ -41,17 +45,28 @@ pipeline {
                 }
             }
         }
-        
-        stage('Run Ansible Playbook') {
-            environment {
-                ANSIBLE_HOST_KEY_CHECKING = 'False'
+
+        stage('Start Minikube') {
+            steps {
+                sh '''
+                    minikube status || minikube start
+                    minikube status
+                '''
             }
+        }
+        
+        stage('Deploy with Ansible') {
             steps {
                 script {
-                    ansiblePlaybook(
-                        playbook: 'deploy-k8s.yaml',
-                        inventory: 'inventory'
-                    )
+                    withCredentials([file(credentialsId: 'vault-pass', variable: 'VAULT_PASS_FILE')]) {
+                        sh """
+                            # Verify vault file exists
+                            ls -la vars/secrets.yml
+                            
+                            # Run ansible playbook with vault
+                            ansible-playbook deploy-k8s.yaml --vault-password-file=\$VAULT_PASS_FILE
+                        """
+                    }
                 }
             }
         }
