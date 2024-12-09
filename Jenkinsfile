@@ -56,7 +56,7 @@ pipeline {
                     # Start fresh cluster
                     minikube start --driver=docker \
                         --kubernetes-version=v1.31.0 \
-                        --cpus=2 \
+                        --cpus=4 \
                         --memory=4096
                     
                     # Wait for cluster to be ready
