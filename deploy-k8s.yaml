@@ -5,19 +5,8 @@
     - vars/secrets.yml
   tasks:
 
-    - name: Verify kubectl config exists
-      stat:
-        path: /var/lib/jenkins/.kube/config
-      register: kube_config
-
-    - name: Show kubectl config status
-      debug:
-        var: kube_config
-
     - name: Create namespace
       kubernetes.core.k8s:
-        verify_ssl: false  # Add this line
-        kubeconfig: "/var/lib/jenkins/.kube/config"
         state: present
         definition:
           apiVersion: v1
