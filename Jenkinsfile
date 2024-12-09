@@ -71,11 +71,12 @@ pipeline {
                 script {
                     withCredentials([file(credentialsId: 'vault-pass', variable: 'VAULT_PASS_FILE')]) {
                         sh """
-                            # Verify vault file exists
+                            # Verify files
                             ls -la vars/secrets.yml
+                            ls -la inventory
                             
-                            # Run ansible playbook with vault
-                            ansible-playbook deploy-k8s.yaml --vault-password-file=\$VAULT_PASS_FILE
+                            # Run ansible with inventory
+                            ansible-playbook deploy-k8s.yaml -i inventory --vault-password-file=\$VAULT_PASS_FILE
                         """
                     }
                 }
