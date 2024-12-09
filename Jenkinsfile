@@ -42,25 +42,25 @@ pipeline {
             }
         }
 
-        stage('Setup Minikube') {
-            steps {
-                sh '''
-                    # Stop and delete existing cluster if any
-                    minikube stop || true
-                    minikube delete || true
+        // stage('Setup Minikube') {
+        //     steps {
+        //         sh '''
+        //             # Stop and delete existing cluster if any
+        //             minikube stop || true
+        //             minikube delete || true
                     
-                    # Start fresh cluster
-                    minikube start --driver=docker \
-                        --kubernetes-version=v1.31.0 \
-                        --cpus=4 \
-                        --memory=4096
+        //             # Start fresh cluster
+        //             minikube start --driver=docker \
+        //                 --kubernetes-version=v1.31.0 \
+        //                 --cpus=4 \
+        //                 --memory=4096
                     
-                    # Wait for cluster to be ready
-                    minikube status
-                    kubectl wait --for=condition=Ready node/minikube --timeout=300s
-                '''
-            }
-        }
+        //             # Wait for cluster to be ready
+        //             minikube status
+        //             kubectl wait --for=condition=Ready node/minikube --timeout=300s
+        //         '''
+        //     }
+        // }
         
         stage('Deploy with Ansible') {
             steps {
