@@ -66,24 +66,24 @@ pipeline {
         //     }
         // }
 
-        stage('Setup Kubernetes Config') {
-            steps {
-                sh '''
-                    # Create .kube directory
-                    sudo mkdir -p /var/lib/jenkins/.kube
+        // stage('Setup Kubernetes Config') {
+        //     steps {
+        //         sh '''
+        //             # Create .kube directory
+        //             sudo mkdir -p /var/lib/jenkins/.kube
                     
-                    # Copy config with sudo
-                    sudo cp /home/dev/.kube/config /var/lib/jenkins/.kube/config
+        //             # Copy config with sudo
+        //             sudo cp /home/dev/.kube/config /var/lib/jenkins/.kube/config
                     
-                    # Set proper ownership and permissions
-                    sudo chown jenkins:jenkins /var/lib/jenkins/.kube/config
-                    sudo chmod 600 /var/lib/jenkins/.kube/config
+        //             # Set proper ownership and permissions
+        //             sudo chown jenkins:jenkins /var/lib/jenkins/.kube/config
+        //             sudo chmod 600 /var/lib/jenkins/.kube/config
                     
-                    # Test connection
-                    KUBECONFIG=/var/lib/jenkins/.kube/config kubectl get nodes
-                '''
-            }
-        }
+        //             # Test connection
+        //             KUBECONFIG=/var/lib/jenkins/.kube/config kubectl get nodes
+        //         '''
+        //     }
+        // }
 
         stage('Deploy with Ansible') {
             steps {
@@ -105,11 +105,7 @@ pipeline {
     
     post {
 
-        always {
-            sh '''
-                sudo rm -f /var/lib/jenkins/.kube/config || true
-            '''
-        }
+        
         success {
             echo 'Successfully deployed InkSight!'
         }
