@@ -42,9 +42,17 @@ pipeline {
             }
         }
         
-        stage('Deploy using Ansible') {
+        stage('Run Ansible Playbook') {
+            environment {
+                ANSIBLE_HOST_KEY_CHECKING = 'False'
+            }
             steps {
-                sh 'ansible-playbook -i inventory.yaml deploy-k8s.yaml'
+                script {
+                    ansiblePlaybook(
+                        playbook: 'deploy-k8s.yaml',
+                        inventory: 'inventory'
+                    )
+                }
             }
         }
     }
