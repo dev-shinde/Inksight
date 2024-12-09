@@ -2,13 +2,6 @@
 - name: Deploy InkSight to Kubernetes
   hosts: all
   tasks:
-    - name: Install required Python packages
-      pip:
-        name:
-          - kubernetes
-          - openshift
-          - PyYAML
-        state: present
 
     - name: Create namespace
       kubernetes.core.k8s:
