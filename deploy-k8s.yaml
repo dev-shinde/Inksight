@@ -5,15 +5,6 @@
     - vars/secrets.yml
   tasks:
 
-    - name: Check Minikube Status
-      shell: minikube status
-      register: minikube_status
-      ignore_errors: yes
-
-    - name: Start Minikube if not running
-      shell: minikube start
-      when: minikube_status.rc != 0
-
     - name: Create namespace
       kubernetes.core.k8s:
         state: present

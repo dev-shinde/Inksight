@@ -46,11 +46,22 @@ pipeline {
             }
         }
 
-        stage('Start Minikube') {
+        stage('Setup Minikube') {
             steps {
                 sh '''
-                    minikube status || minikube start
+                    # Stop and delete existing cluster if any
+                    minikube stop || true
+                    minikube delete || true
+                    
+                    # Start fresh cluster
+                    minikube start --driver=docker \
+                        --kubernetes-version=v1.31.0 \
+                        --cpus=2 \
+                        --memory=4096
+                    
+                    # Wait for cluster to be ready
                     minikube status
+                    kubectl wait --for=condition=Ready node/minikube --timeout=300s
                 '''
             }
         }
