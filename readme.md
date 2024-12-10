@@ -98,6 +98,7 @@ This project is licensed under the MIT License
 
 ## Authors
 - Dev Shinde
+- Mahima
 
 ## Acknowledgments
 - Google Cloud Platform for Gemini API
