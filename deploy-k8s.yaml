@@ -11,7 +11,7 @@
 
     - name: Create namespace
       kubernetes.core.k8s:
-        kubeconfig: /var/lib/jenkins/.kube/config
+        kubeconfig: /etc/rancher/k3s/k3s.yaml
         verify_ssl: false
         state: present
         definition:
