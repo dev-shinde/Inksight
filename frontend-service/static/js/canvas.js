@@ -38,19 +38,18 @@ function setColor(color) {
 }
 
 function resetCanvas() {
-    // Clear the canvas
+    // Clear canvas
     ctx.clearRect(0, 0, canvas.width, canvas.height);
     
-    // Clear the results
-    const resultPanel = document.getElementById('resultPanel');
-    resultPanel.classList.add('hidden');
+    // Clear output text
+    document.getElementById('expressionText').textContent = '';
+    document.getElementById('resultText').textContent = '';
+    document.getElementById('explanationText').textContent = '';
     
-    // Clear the content after transition
-    setTimeout(() => {
-        document.getElementById('result').innerHTML = '';
-        document.getElementById('explanation').textContent = '';
-        resultPanel.classList.remove('hidden');
-    }, 300); // Wait for transition to complete
+    // Keep panel visible with empty fields
+    const resultPanel = document.getElementById('resultPanel');
+    resultPanel.classList.remove('hidden');
+    resultPanel.style.display = 'flex';
 }
 
 // Add this to main.js

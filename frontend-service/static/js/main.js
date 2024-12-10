@@ -34,12 +34,3 @@ function calculate() {
         btn.textContent = 'Calculate';
     });
 }
-
-// Add this to hide results when resetting
-function resetCanvas() {
-    ctx.clearRect(0, 0, canvas.width, canvas.height);
-    document.getElementById('expressionText').textContent = '';
-    document.getElementById('resultText').textContent = '';
-    document.getElementById('explanationText').textContent = '';
-    document.getElementById('resultPanel').style.display = 'none';
-}
