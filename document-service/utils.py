@@ -22,6 +22,7 @@ def process_document(file_content):
         # Initialize Anthropic client
         anthropic = Anthropic(api_key=os.getenv('ANTHROPIC_API_KEY'))
         
+        # Create message using Claude
         message = anthropic.messages.create(
             model="claude-3-sonnet-20240229",
             max_tokens=1024,
