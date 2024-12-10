@@ -41,8 +41,8 @@ pipeline {
                 }
             }
         }
-        
-        stage('Minikube Start') {
+
+        stage('Deploy with Ansible') {
             steps {
                 script {
                         sh """
@@ -50,10 +50,8 @@ pipeline {
                         """
                     }
                 }
-            }
         }
-    }
-
+        
         stage('Deploy with Ansible') {
             steps {
                 script {
@@ -70,6 +68,7 @@ pipeline {
                 }
             }
         }
+    }
     
     post {
         success {
