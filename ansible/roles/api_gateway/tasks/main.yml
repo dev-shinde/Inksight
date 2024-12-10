@@ -1,0 +1,15 @@
+---
+- name: Deploy Api-Gateway Service
+  kubernetes.core.k8s:
+    state: present
+    definition: "{{ lookup('template', 'deployment.yaml.j2') | from_yaml }}"
+
+- name: Deploy Api-Gateway Service Service
+  kubernetes.core.k8s:
+    state: present
+    definition: "{{ lookup('template', 'service.yaml.j2') | from_yaml }}"
+
+- name: Deploy Api-Gateway HPA
+  kubernetes.core.k8s:
+    state: present
+    definition: "{{ lookup('template', 'hpa.yaml.j2') | from_yaml }}"

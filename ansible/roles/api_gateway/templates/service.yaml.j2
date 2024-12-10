@@ -1,0 +1,14 @@
+# k8/api-gateway/service.yaml
+apiVersion: v1
+kind: Service
+metadata:
+  name: api-gateway
+  namespace: inksight
+spec:
+  selector:
+    app: api-gateway
+  ports:
+  - port: 80
+    targetPort: 5000
+    nodePort: 30000  # You can specify a port between 30000-32767
+  type: NodePort

@@ -1,0 +1,22 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: calculator-service
+  namespace: inksight
+spec:
+  replicas: 2
+  selector:
+    matchLabels:
+      app: calculator-service
+  template:
+    metadata:
+      labels:
+        app: calculator-service
+    spec:
+      containers:
+      - name: calculator
+        image: devz19/inksight-calculator:latest
+        env:
+        - name: GEMINI_API_KEY
+          value: "{{ gemini_api_key }}"
+        # ... rest of your deployment config

@@ -1,0 +1,12 @@
+---
+- name: Deploy InkSight Application
+  hosts: all
+  vars_files:
+    - ../vars/secrets.yml
+  
+  roles:
+    - common
+    - api_gateway
+    - calculator
+    - document
+    - frontend

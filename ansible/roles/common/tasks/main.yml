@@ -1,0 +1,25 @@
+---
+- name: Create namespace
+  kubernetes.core.k8s:
+    kubeconfig: "{{ lookup('env', 'HOME') }}/.kube/config"
+    verify_ssl: false
+    state: present
+    definition:
+      apiVersion: v1
+      kind: Namespace
+      metadata:
+        name: inksight
+
+- name: Apply secrets
+  kubernetes.core.k8s:
+    kubeconfig: "{{ lookup('env', 'HOME') }}/.kube/config"
+    verify_ssl: false
+    state: present
+    definition: "{{ lookup('template', 'secrets.yaml.j2') | from_yaml }}"
+
+- name: Apply configmap
+  kubernetes.core.k8s:
+    kubeconfig: "{{ lookup('env', 'HOME') }}/.kube/config"
+    verify_ssl: false
+    state: present
+    definition: "{{ lookup('template', 'configmap.yaml.j2') | from_yaml }}"
