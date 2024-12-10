@@ -62,7 +62,7 @@ pipeline {
                             ls -la inventory
                             
                             # Run ansible with inventory
-                            ansible-playbook deploy-k8s.yaml -i inventory --vault-password-file=\$VAULT_PASS_FILE
+                            ansible-playbook ansible/deploy.yml -i inventory --vault-password-file=\$VAULT_PASS_FILE
                         """
                     }
                 }
