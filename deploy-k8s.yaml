@@ -42,7 +42,7 @@
     - name: Deploy Calculator Service
       kubernetes.core.k8s:
         state: present
-        definition: "{{ lookup('file', './k8/calculator/deployment.yaml') | from_yaml }}"
+        definition: "{{ lookup('template', './k8/calculator/deployment.yaml.j2') | from_yaml }}"
 
     - name: Deploy Calculator Service Service
       kubernetes.core.k8s:
@@ -57,7 +57,7 @@
     - name: Deploy Document Service
       kubernetes.core.k8s:
         state: present
-        definition: "{{ lookup('file', './k8/document/deployment.yaml') | from_yaml }}"
+        definition: "{{ lookup('template', './k8/document/deployment.yaml.j2') | from_yaml }}"
 
     - name: Deploy Document Service Service
       kubernetes.core.k8s:
