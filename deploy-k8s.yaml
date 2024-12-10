@@ -6,17 +6,20 @@
   tasks:
     
     - name: Verify k3s status
-        shell: "kubectl get nodes"
-        register: k3s_status
+      shell: "kubectl get nodes"
+      register: k3s_status
+
     - name: Create namespace
       kubernetes.core.k8s:
+        kubeconfig: /etc/rancher/k3s/k3s.yaml
+        verify_ssl: false
         state: present
         definition:
           apiVersion: v1
           kind: Namespace
           metadata:
             name: inksight
-
+            
     - name: Deploy Secrets
       kubernetes.core.k8s:
         state: present
