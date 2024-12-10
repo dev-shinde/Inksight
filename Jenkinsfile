@@ -42,7 +42,7 @@ pipeline {
             }
         }
 
-        stage('Deploy with Ansible') {
+        stage('Start Minikube') {
             steps {
                 script {
                         sh """
