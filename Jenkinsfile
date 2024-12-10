@@ -62,6 +62,7 @@ pipeline {
                             ls -la inventory
                             
                             # Run ansible with inventory
+                            KUBECONFIG = '/etc/rancher/k3s/k3s.yaml'
                             ansible-playbook ansible/deploy.yml -i inventory --vault-password-file=\$VAULT_PASS_FILE
                         """
                     }
