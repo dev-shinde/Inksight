@@ -57,7 +57,6 @@ pipeline {
                 script {
                     withCredentials([file(credentialsId: 'vault-pass', variable: 'VAULT_PASS_FILE')]) {
                         sh """
-                            export KUBECONFIG=/etc/rancher/k3s/k3s.yaml
                             ansible-playbook deploy-k8s.yaml -i inventory --vault-password-file=\$VAULT_PASS_FILE
                         """
                     }
