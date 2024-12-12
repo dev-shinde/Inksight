@@ -12,6 +12,9 @@ spec:
     metadata:
       labels:
         app: document-service
+      annotations:
+        fluentd.org/parser: json  # Tells Fluentd to parse logs as JSON
+        fluentd.org/tag: "inksight.calculator"  # Adds custom tag for filtering logs
     spec:
       containers:
       - name: document
@@ -28,3 +31,8 @@ spec:
         env:
         - name: ANTHROPIC_API_KEY
           value: "{{ anthropic_api_key }}"
+        # Add logging configuration
+        - name: PYTHONUNBUFFERED
+          value: "1"  # Ensures Python logs are output immediately
+        - name: FLASK_ENV
+          value: "production"

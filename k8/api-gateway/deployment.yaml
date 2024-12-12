@@ -12,6 +12,9 @@ spec:
     metadata:
       labels:
         app: api-gateway
+      annotations:
+        fluentd.org/parser: json  # Tells Fluentd to parse logs as JSON
+        fluentd.org/tag: "inksight.calculator"  # Adds custom tag for filtering logs
     spec:
       containers:
       - name: api-gateway
@@ -30,3 +33,8 @@ spec:
             name: inksight-config
         - secretRef:
             name: inksight-secrets
+                # Add logging configuration
+        - name: PYTHONUNBUFFERED
+          value: "1"  # Ensures Python logs are output immediately
+        - name: FLASK_ENV
+          value: "production"
