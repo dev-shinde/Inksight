@@ -1,2 +1,2 @@
-[gcp_instances]
-instance-20241213-135608 ansible_host=34.172.140.81 ansible_user=shindedev123 ansible_ssh_private_key_file=~/.ssh/google_compute_engine
+[gcp]
+34.172.140.81 ansible_user=shindedev123 ansible_ssh_private_key_file=~/.ssh/id_rsa
