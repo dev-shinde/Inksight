@@ -3,7 +3,7 @@ services:
     build: 
       context: ./api-gateway
     ports:
-      - "5000:5000"
+      - "0.0.0.0:5000:5000"  # Bind to all interfaces
     environment:
       - FRONTEND_SERVICE_URL=http://frontend-service:5001
       - CALCULATOR_SERVICE_URL=http://calculator-service:5002
@@ -36,7 +36,7 @@ services:
 
   calculator-service:
     ports:
-      - "5002:5002"
+      - "0.0.0.0:5002:5002"  # calculator-service
     build: 
       context: ./calculator-service
     environment:
@@ -47,7 +47,7 @@ services:
 
   document-service:
     ports:
-      - "5003:5003"
+      - "0.0.0.0:5003:5003"  # document-service
     build:
       context: ./document-service
     environment:
