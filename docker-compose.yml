@@ -17,7 +17,7 @@ services:
 
   frontend-service:
     ports:
-      - "0.0.0.0:5001:5001"  # Bind to all interfaces
+      - "5001:5001"  # Bind to all interfaces
     build: 
       context: ./frontend-service
     environment:
