@@ -34,6 +34,7 @@ spec:
         - secretRef:
             name: inksight-secrets
                 # Add logging configuration
+        env:  # Define individual environment variables here
         - name: PYTHONUNBUFFERED
           value: "1"  # Ensures Python logs are output immediately
         - name: FLASK_ENV
